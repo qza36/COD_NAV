@@ -9,7 +9,7 @@ def generate_launch_description():
         Node(
             package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
             remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
-                        ('scan',  '/scan')],
+                        ('scan', '/scan')],
             parameters=[{
                 'target_frame': 'chassis',
                 'transform_tolerance': 0.01,
@@ -22,10 +22,7 @@ def generate_launch_description():
                 'range_min': 0.45,
                 'range_max': 4.0,
                 'use_inf': True,
-                'inf_epsilon': 1.0,
-                'qos_overrides': {
-                    'policy': 'reliable'  # 将其设置为订阅者要求的策略，如RELIABLE
-                }
+                'inf_epsilon': 1.0
             }],
             name='pointcloud_to_laserscan'
         )

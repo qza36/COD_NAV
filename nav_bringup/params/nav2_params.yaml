@@ -2,7 +2,7 @@ bt_navigator:
   ros__parameters:
     use_sim_time: True
     global_frame: map
-    robot_base_frame: camera_init
+    robot_base_frame: chassis
     odom_topic: /Odometry
     bt_loop_duration: 10
     default_server_timeout: 20
@@ -144,7 +144,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: camera_init
+      global_frame: map
       robot_base_frame: chassis
       use_sim_time: True
       rolling_window: true
@@ -269,7 +269,7 @@ behavior_server:
       plugin: "nav2_behaviors/Wait"
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
-    global_frame: camera_init
+    global_frame: map
     robot_base_frame: chassis
     transform_tolerance: 0.1
     use_sim_time: true

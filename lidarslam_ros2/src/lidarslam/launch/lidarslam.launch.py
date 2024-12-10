@@ -25,15 +25,10 @@ def generate_launch_description():
         package='scanmatcher',
         executable='scanmatcher_node',
         parameters=[main_param_dir],
-        remappings=[('/input_cloud','/livox/lidar/pointcloud')],
+        remappings=[('/input_cloud','/cloud_registered')],
         output='screen'
         )
 
-    tf = launch_ros.actions.Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        arguments=['0','0','0','0','0','0','0','body','chassis']
-        )
 
     graphbasedslam = launch_ros.actions.Node(
         package='graph_based_slam',
@@ -56,5 +51,5 @@ def generate_launch_description():
             description='Full path to main parameter file to load'),
         mapping,
         graphbasedslam,
-        rviz,
+        rviz
             ])

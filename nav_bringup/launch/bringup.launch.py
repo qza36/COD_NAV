@@ -78,7 +78,7 @@ def generate_launch_description():
 
     stdout_linebuf_envvar = SetEnvironmentVariable(
         'RCUTILS_LOGGING_BUFFERED_STREAM', '1')
-
+  
     declare_namespace_cmd = DeclareLaunchArgument(
         'namespace',
         default_value='',
@@ -100,7 +100,7 @@ def generate_launch_description():
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='false',
+        default_value='true',
         description='Use simulation (Gazebo) clock if true')
 
     declare_params_file_cmd = DeclareLaunchArgument(
