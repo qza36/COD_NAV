@@ -1,2 +1,2 @@
 修改pointcloud2laserscan的QoS策略
-使用NDT重定位、FAStLIO2里程记
+使用NDT重定位、FASTLIO2里程记
