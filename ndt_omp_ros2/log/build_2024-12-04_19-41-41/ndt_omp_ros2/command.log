@@ -1,6 +1,0 @@
-Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/arlo/robo_ws/ndt_omp_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2
-Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/arlo/robo_ws/ndt_omp_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2
-Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2 -- -j32 -l32
-Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2 -- -j32 -l32
-Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2
-Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2
