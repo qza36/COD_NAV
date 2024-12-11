@@ -1,0 +1,2 @@
+/usr/bin/ar qc libndt_omp.a CMakeFiles/ndt_omp.dir/src/pclomp/voxel_grid_covariance_omp.cpp.o CMakeFiles/ndt_omp.dir/src/pclomp/ndt_omp.cpp.o CMakeFiles/ndt_omp.dir/src/pclomp/gicp_omp.cpp.o
+/usr/bin/ranlib libndt_omp.a

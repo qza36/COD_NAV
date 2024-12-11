@@ -1,0 +1,4 @@
+source;share/ndt_omp_ros2/local_setup.bash
+source;share/ndt_omp_ros2/local_setup.dsv
+source;share/ndt_omp_ros2/local_setup.sh
+source;share/ndt_omp_ros2/local_setup.zsh

@@ -1,0 +1,123 @@
+[0.361s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink']
+[0.361s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=32, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7fbbb0737cd0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7fbbb07377f0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7fbbb07377f0>>)
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.519s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.519s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/arlo/robo_ws/ndt_omp_ros2'
+[0.519s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.519s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.519s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.519s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.519s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.520s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.520s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.520s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.520s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.535s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.ament_cmake' and name 'ndt_omp_ros2'
+[0.535s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.535s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.535s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.535s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.535s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.559s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.559s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.562s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 325 installed packages in /opt/ros/humble
+[0.565s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_args' from command line to 'None'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_target' from command line to 'None'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_clean_cache' from command line to 'False'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_clean_first' from command line to 'False'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_force_configure' from command line to 'False'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'ament_cmake_args' from command line to 'None'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'catkin_cmake_args' from command line to 'None'
+[0.610s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.610s] DEBUG:colcon.colcon_core.verb:Building package 'ndt_omp_ros2' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2', 'merge_install': False, 'path': '/home/arlo/robo_ws/ndt_omp_ros2', 'symlink_install': True, 'test_result_base': None}
+[0.610s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.612s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.612s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/arlo/robo_ws/ndt_omp_ros2' with build type 'ament_cmake'
+[0.612s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/arlo/robo_ws/ndt_omp_ros2'
+[0.614s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.614s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.614s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.621s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/arlo/robo_ws/ndt_omp_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2
+[39.339s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/arlo/robo_ws/ndt_omp_ros2 -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2
+[39.341s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2 -- -j32 -l32
+[78.458s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2 -- -j32 -l32
+[78.467s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2
+[78.622s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ndt_omp_ros2)
+[78.623s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2
+[78.626s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2' for CMake module files
+[78.627s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2' for CMake config files
+[78.627s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'cmake_prefix_path')
+[78.627s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.ps1'
+[78.628s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.dsv'
+[78.628s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.sh'
+[78.629s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib'
+[78.629s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/bin'
+[78.629s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'path')
+[78.629s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.ps1'
+[78.630s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.dsv'
+[78.630s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.sh'
+[78.630s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib/pkgconfig/ndt_omp_ros2.pc'
+[78.630s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib/python3.10/site-packages'
+[78.631s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/bin'
+[78.631s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'pythonscriptspath')
+[78.631s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.ps1'
+[78.631s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.dsv'
+[78.631s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.sh'
+[78.632s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.ps1'
+[78.632s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv'
+[78.633s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.sh'
+[78.633s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.bash'
+[78.634s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.zsh'
+[78.635s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/colcon-core/packages/ndt_omp_ros2)
+[78.636s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ndt_omp_ros2)
+[78.636s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2' for CMake module files
+[78.636s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2' for CMake config files
+[78.636s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'cmake_prefix_path')
+[78.636s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.ps1'
+[78.637s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.dsv'
+[78.637s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.sh'
+[78.637s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib'
+[78.637s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/bin'
+[78.637s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'path')
+[78.638s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.ps1'
+[78.638s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.dsv'
+[78.638s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.sh'
+[78.638s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib/pkgconfig/ndt_omp_ros2.pc'
+[78.638s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/lib/python3.10/site-packages'
+[78.638s] Level 1:colcon.colcon_core.environment:checking '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/bin'
+[78.638s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'pythonscriptspath')
+[78.639s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.ps1'
+[78.639s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.dsv'
+[78.639s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.sh'
+[78.639s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.ps1'
+[78.640s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv'
+[78.640s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.sh'
+[78.640s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.bash'
+[78.640s] INFO:colcon.colcon_core.shell:Creating package script '/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/ndt_omp_ros2/package.zsh'
+[78.640s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/arlo/robo_ws/ndt_omp_ros2/install/ndt_omp_ros2/share/colcon-core/packages/ndt_omp_ros2)
+[78.641s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[78.641s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[78.641s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[78.641s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[78.832s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[78.832s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[78.832s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[78.832s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[78.834s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.FileNotFound: Failed to connect to socket /run/user/1000/bus: No such file or directory
+[78.834s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[78.835s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/arlo/robo_ws/ndt_omp_ros2/install/local_setup.ps1'
+[78.836s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/arlo/robo_ws/ndt_omp_ros2/install/_local_setup_util_ps1.py'
+[78.839s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/arlo/robo_ws/ndt_omp_ros2/install/setup.ps1'
+[78.840s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/arlo/robo_ws/ndt_omp_ros2/install/local_setup.sh'
+[78.841s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/arlo/robo_ws/ndt_omp_ros2/install/_local_setup_util_sh.py'
+[78.841s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/arlo/robo_ws/ndt_omp_ros2/install/setup.sh'
+[78.842s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/arlo/robo_ws/ndt_omp_ros2/install/local_setup.bash'
+[78.843s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/arlo/robo_ws/ndt_omp_ros2/install/setup.bash'
+[78.844s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/arlo/robo_ws/ndt_omp_ros2/install/local_setup.zsh'
+[78.845s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/arlo/robo_ws/ndt_omp_ros2/install/setup.zsh'

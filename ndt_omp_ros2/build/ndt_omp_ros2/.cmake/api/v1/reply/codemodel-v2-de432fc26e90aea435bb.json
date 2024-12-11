@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-RELEASE-30996755d2756911d66b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "RELEASE",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ndt_omp_ros2",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "align::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-align-RELEASE-431a4f1fb95844880111.json",
+					"name" : "align",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ndt_omp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ndt_omp-RELEASE-8ccb469b13f04aeeb05e.json",
+					"name" : "ndt_omp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ndt_omp_ros2_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ndt_omp_ros2_uninstall-RELEASE-bd30d3edea59898f294f.json",
+					"name" : "ndt_omp_ros2_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-RELEASE-dd7055d77d2086e31435.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/arlo/robo_ws/ndt_omp_ros2/build/ndt_omp_ros2",
+		"source" : "/home/arlo/robo_ws/ndt_omp_ros2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
