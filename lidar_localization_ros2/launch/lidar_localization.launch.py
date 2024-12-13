@@ -31,7 +31,7 @@ def generate_launch_description():
         namespace='',
         package='lidar_localization_ros2',
         executable='lidar_localization_node',
-        parameters=[localization_param_dir,{'use_sim_time': True}],
+        parameters=[localization_param_dir,{'use_sim_time': False}],
         remappings=[('/cloud','/cloud_registered')],
         output='both')
 

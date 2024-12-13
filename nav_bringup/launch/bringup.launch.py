@@ -3,7 +3,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
@@ -13,13 +13,16 @@ def generate_launch_description():
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
 
     # 配置文件路径
+    robot_description = Command(['xacro ', os.path.join(
+        get_package_share_directory('nav_bringup'), 'urdf', 'simulation_waking_robot.xacro')])
+
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
     localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
 
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='true',
+        'use_sim_time', default_value='false',
         description='Use simulation (Gazebo) clock if true')
 
     use_sim_time = LaunchConfiguration('use_sim_time')
@@ -27,6 +30,15 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
+            Node(
+                package='robot_state_publisher',
+                executable='robot_state_publisher',
+                name='robot_state_publisher',
+                parameters=[{
+                    'robot_description': robot_description
+                }],
+                output='screen'
+            ),
             Node(
                 package='fast_lio',
                 executable='fastlio_mapping',
@@ -47,13 +59,13 @@ def generate_launch_description():
                     'target_frame': 'chassis',
                     'transform_tolerance': 0.01,
                     'min_height': 0.0,
-                    'max_height': 1.0,
+                    'max_height': 2.0,
                     'angle_min': -1.5708,  # -M_PI/2
-                    'angle_max': 1.5708,  # M_PI/2
+                    'angle_max': 2.5708,  # M_PI/2
                     'angle_increment': 0.0087,  # M_PI/360.0
                     'scan_time': 0.3333,
-                    'range_min': 0.45,
-                    'range_max': 5.0,
+                    'range_min': 0.05,
+                    'range_max': 10.0,
                     'use_inf': True,
                     'inf_epsilon': 1.0
                 }],
