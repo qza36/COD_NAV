@@ -14,8 +14,9 @@
   </xacro:macro>
 
   <!-- chassis to livox_frame -->
-  <xacro:arg name="xyz" default="0.12 0.0 0.175" />
+  <xacro:arg name="xyz" default="0.0 0.045 0.49" />
   <xacro:arg name="rpy" default="0 0 0" />
+
   <link name="chassis">
     <visual>
       <geometry>
@@ -34,8 +35,6 @@
     </collision>
     <xacro:default_inertial mass="8.2"/>
   </link>
-
-
 
   <link name="wheel_1">
     <visual>
@@ -111,14 +110,14 @@
     <xacro:default_inertial mass="0.5"/>
   </link>
 
-  <joint name="base_to_wheel1" type="continuous">
+  <joint name="base_to_wheel1" type="fixed">
     <parent link="chassis"/>
     <child link="wheel_1"/>
     <origin rpy="${-PI/2} 0 0" xyz="0.1 0.13 0"/>
     <axis xyz="0 0 1" />
   </joint>
 
-  <joint name="base_to_wheel2" type="continuous">
+  <joint name="base_to_wheel2" type="fixed">
     <axis xyz="0 0 1" />
     <anchor xyz="0 0 0" />
     <limit effort="100" velocity="100" />
@@ -127,127 +126,37 @@
     <origin rpy="${-PI/2} 0 0" xyz="-0.1 0.13 0"/>
   </joint>
 
-  <joint name="base_to_wheel3" type="continuous">
+  <joint name="base_to_wheel3" type="fixed">
     <parent link="chassis"/>
     <axis xyz="0 0 1" />
     <child link="wheel_3"/>
     <origin rpy="${-PI/2} 0 0" xyz="0.1 -0.13 0"/>
   </joint>
 
-  <joint name="base_to_wheel4" type="continuous">
+  <joint name="base_to_wheel4" type="fixed">
     <parent link="chassis"/>
     <axis xyz="0 0 1" />
     <child link="wheel_4"/>
     <origin rpy="${-PI/2} 0 0" xyz="-0.1 -0.13 0"/>
   </joint>
 
-  <!-- IMU joint -->
-  <joint name="imu_joint" type="fixed">
-    <axis xyz="0 1 0" />
-    <origin xyz="0.12 0 0.125" rpy="0 0 0"/>
-    <parent link="chassis"/>
-    <child link="imu_link"/>
-  </joint>
-
-  <!-- IMU -->
-  <link name="imu_link">
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.05 0.05 0.05"/>
-      </geometry>
-    </collision>
+  <!-- Livox-Mid360  -->
+  <link name="livox_frame">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0.025 -0.0265 -0.025" rpy="${pi/2} 0 ${pi}"/>
       <geometry>
-        <box size="0.05 0.05 0.05"/>
+        <mesh filename="package://pb_rm_simulation/meshes/mid360.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="green">
-        <color rgba="0 1 0 1"/>
+      <material name="blue">
+        <color rgba="0 0 1.0 1" />
       </material>
     </visual>
-    <inertial>
-      <mass value="1e-2" />
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
-    </inertial>
   </link>
 
-  <!-- Gazebo插件设置相关 -->
-  <gazebo reference="chassis">
-    <material>Gazebo/Orange</material>
-  </gazebo>
-  <gazebo reference="wheel_1">
-    <material>Gazebo/Red</material>
-  </gazebo>
-  <gazebo reference="wheel_2">
-    <material>Gazebo/Black</material>
-  </gazebo>
-  <gazebo reference="wheel_3">
-    <material>Gazebo/Red</material>
-  </gazebo>
-  <gazebo reference="wheel_4">
-    <material>Gazebo/Black</material>
-  </gazebo>
-  <gazebo reference="imu_link">
-    <material>Gazebo/BuildingFrame</material>
-  </gazebo>
-  <gazebo reference="livox_frame">
-    <material>Gazebo/LightBlueLaser</material>
-  </gazebo>
-
-  <!-- Drive controller plugin-->
-  <!-- https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-Planar-Move -->
-  <gazebo>
-    <plugin name="mecanum_controller" filename="libgazebo_ros_planar_move.so">
-      <ros>
-        <!-- Add a namespace -->
-        <namespace>/</namespace>
-        <!-- Remap the default topic -->
-        <remapping>cmd_vel:=cmd_vel_chassis</remapping>
-        <remapping>odom:=odom</remapping>
-      </ros>
-
-      <!-- Set control loop update rate -->
-      <update_rate>100</update_rate>
-      <!-- Set odom publish rate -->
-      <publish_rate>10</publish_rate>
-
-      <!-- Set if odom required -->
-      <publish_odom>false</publish_odom>
-      <publish_odom_tf>false</publish_odom_tf>
-
-      <!-- Frame IDs -->
-      <odometry_frame>odom</odometry_frame>
-      <robot_base_frame>chassis</robot_base_frame>
-
-      <!-- Set odom covariance -->
-      <covariance_x>0.0001</covariance_x>
-      <covariance_y>0.0001</covariance_y>
-      <covariance_yaw>0.01</covariance_yaw>
-    </plugin>
-  </gazebo>
-
-  <!-- mid360_imu plugin -->
-  <!-- https://github.com/ros-simulation/gazebo_ros_pkgs/wiki/ROS-2-Migration:-IMU-Sensors -->
-  <gazebo reference="imu_link">
-    <sensor name="mid360_imu" type="imu">
-      <always_on>true</always_on>
-      <update_rate>100</update_rate>
-      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
-        <ros>
-          <namespace>/</namespace>
-          <remapping>~/out:=/livox/imu</remapping>
-        </ros>
-        <frame_name>imu_link</frame_name>
-      </plugin>
-    </sensor>
-  </gazebo>
-
-  <!-- Livox-Mid360  -->
-  <xacro:include filename="$(find ros2_livox_simulation)/urdf/mid360.xacro" />
-  <xacro:mid360 name="livox_frame" parent="chassis" topic="/livox/lidar">
+  <joint name="livox_joint" type="fixed">
     <origin xyz="$(arg xyz)" rpy="$(arg rpy)" />
-  </xacro:mid360>
+    <parent link="chassis"/>
+    <child link="livox_frame"/>
+  </joint>
 
 </robot>
