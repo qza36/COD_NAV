@@ -1,49 +1,36 @@
 bt_navigator:
   ros__parameters:
-    use_sim_time: True
+    use_sim_time: False
     global_frame: map
     robot_base_frame: chassis
     odom_topic: /Odometry
     bt_loop_duration: 10
     default_server_timeout: 20
-    wait_for_service_timeout: 1000
-    # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
-    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
-    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
-    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
-      - nav2_smooth_path_action_bt_node
       - nav2_follow_path_action_bt_node
+      - nav2_back_up_action_bt_node
       - nav2_spin_action_bt_node
       - nav2_wait_action_bt_node
-      - nav2_assisted_teleop_action_bt_node
-      - nav2_back_up_action_bt_node
-      - nav2_drive_on_heading_bt_node
       - nav2_clear_costmap_service_bt_node
       - nav2_is_stuck_condition_bt_node
       - nav2_goal_reached_condition_bt_node
       - nav2_goal_updated_condition_bt_node
-      - nav2_globally_updated_goal_condition_bt_node
-      - nav2_is_path_valid_condition_bt_node
       - nav2_initial_pose_received_condition_bt_node
       - nav2_reinitialize_global_localization_service_bt_node
       - nav2_rate_controller_bt_node
       - nav2_distance_controller_bt_node
       - nav2_speed_controller_bt_node
       - nav2_truncate_path_action_bt_node
-      - nav2_truncate_path_local_action_bt_node
       - nav2_goal_updater_node_bt_node
       - nav2_recovery_node_bt_node
       - nav2_pipeline_sequence_bt_node
       - nav2_round_robin_node_bt_node
       - nav2_transform_available_condition_bt_node
       - nav2_time_expired_condition_bt_node
-      - nav2_path_expiring_timer_condition
       - nav2_distance_traveled_condition_bt_node
       - nav2_single_trigger_bt_node
-      - nav2_goal_updated_controller_bt_node
       - nav2_is_battery_low_condition_bt_node
       - nav2_navigate_through_poses_action_bt_node
       - nav2_navigate_to_pose_action_bt_node
@@ -51,22 +38,6 @@ bt_navigator:
       - nav2_planner_selector_bt_node
       - nav2_controller_selector_bt_node
       - nav2_goal_checker_selector_bt_node
-      - nav2_controller_cancel_bt_node
-      - nav2_path_longer_on_approach_bt_node
-      - nav2_wait_cancel_bt_node
-      - nav2_spin_cancel_bt_node
-      - nav2_back_up_cancel_bt_node
-      - nav2_assisted_teleop_cancel_bt_node
-      - nav2_drive_on_heading_cancel_bt_node
-      - nav2_is_battery_charging_condition_bt_node
-
-bt_navigator_navigate_through_poses_rclcpp_node:
-  ros__parameters:
-    use_sim_time: False
-
-bt_navigator_navigate_to_pose_rclcpp_node:
-  ros__parameters:
-    use_sim_time: False
 
 controller_server:
   ros__parameters:
@@ -119,10 +90,10 @@ controller_server:
       #*******************************************************************************
       # Robot
       #*******************************************************************************
-      max_vel_x: 3.0                        #最大平移速度
-      max_vel_x_backwards: 3.0              #最大后退速度
+      max_vel_x: 2.0                        #最大平移速度
+      max_vel_x_backwards: 2.0              #最大后退速度
       max_vel_theta: 6.0                    #最大转向角速度
-      acc_lim_x: 4.0                        #最大平移加速度
+      acc_lim_x: 2.0                        #最大平移加速度
       acc_lim_theta: 6.0                    #最大角加速度
       is_footprint_dynamic: False           #如果为真，在检查轨迹可行性之前更新足迹
       use_proportional_saturation: False    #如果为true，则按比例减少所有扭曲分量（线性x和y以及角度z）（如果任何扭曲分量超过其相应的界限），而不是单独饱和每个扭曲分量
@@ -138,22 +109,22 @@ controller_server:
       #*******************************************************************************
       # Robot/Omni 此部分参数仅适用于全方位移动机器人
       #*******************************************************************************
-      max_vel_y: 3.0
-      acc_lim_y: 4.0
+      max_vel_y: 2.0
+      acc_lim_y: 2.0
 
       #*******************************************************************************
       # GoalTolerance 目标容差
       #*******************************************************************************
-      free_goal_vel: False      #允许机器人以最大速度驶向目的地，为False时，车到达终点时的目标速度为0；
+      free_goal_vel: True      #允许机器人以最大速度驶向目的地，为False时，车到达终点时的目标速度为0；
 
       #*******************************************************************************
       # Obstacles 障碍物
       #*******************************************************************************
-      min_obstacle_dist: 0.25                     #机器人与障碍物之间最小的期望间隔距离
-      inflation_dist: 0.6                         #障碍物周围的缓冲区，用于增加安全裕度。此缓冲区内具有非零的惩罚代价
+      min_obstacle_dist: 0.1                     #机器人与障碍物之间最小的期望间隔距离
+      inflation_dist: 0.45                         #障碍物周围的缓冲区，用于增加安全裕度。此缓冲区内具有非零的惩罚代价
       dynamic_obstacle_inflation_dist: 0.7        #具有非零惩罚成本的动态障碍物预测位置周围的缓冲区（应大于min_obstacle_dist才能生效)
       include_dynamic_obstacles: True             #预测动态障碍物周围的缓冲区，用于增加安全裕度。此缓冲区内具有非零的惩罚代价
-      include_costmap_obstacles: True             #是否直接考虑代价地图中的障碍物 (如果没有单独的聚类和检测功能，则需要此选项)
+      include_costmap_obstacles: False             #是否直接考虑代价地图中的障碍物 (如果没有单独的聚类和检测功能，则需要此选项)
       legacy_obstacle_association: False          #是否严格遵循局部规划出来的路径。如果为真，则使用旧的关联策略 (为每个障碍物找到最近的 TEB 姿势)，否则使用新的关联策略 (为每个 TEB 姿势仅找到“相关”障碍物)
       costmap_obstacles_behind_robot_dist: 1.5    #限制规划时考虑的占据局部代价地图障碍物 (指定距离，米)。该值仅对机器人后方的障碍物生效。
       obstacle_poses_affected: 15                 #为了减少计算量，障碍物位置会附加到轨迹上最近的姿态上，但也会考虑一定数量的相邻姿态。
@@ -233,7 +204,6 @@ controller_server:
       oscillation_recovery_min_duration: 10.0   #在这个时间内，是否再次发生FailureDetector检测的振荡
       oscillation_filter_duration: 10.0         #failure_detector_中buffer容器的大小为oscillation_filter_duration * controller_frequency
 
-
 local_costmap:
   local_costmap:
     ros__parameters:
@@ -246,11 +216,11 @@ local_costmap:
       width: 6
       height: 6
       resolution: 0.05
-      robot_radius: 0.3
-      plugins: ["voxel_layer", "inflation_layer"]
+      robot_radius: 0.32
+      plugins: ["voxel_layer","inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 1.8
+        cost_scaling_factor: 3.0
         inflation_radius: 0.25
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
@@ -285,10 +255,10 @@ global_costmap:
       global_frame: map
       robot_base_frame: chassis
       use_sim_time: False
-      robot_radius: 0.22
+      robot_radius: 0.38
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      plugins: ["static_layer","obstacle_layer","inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -297,11 +267,11 @@ global_costmap:
           topic: /scan
           max_obstacle_height: 2.0
           clearing: True
-          marking: False
+          marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 4.0
+          raytrace_max_range: 3.0
           raytrace_min_range: 0.0
-          obstacle_max_range: 5.5
+          obstacle_max_range: 2.5
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"

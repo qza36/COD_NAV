@@ -14,7 +14,7 @@
   </xacro:macro>
 
   <!-- chassis to livox_frame -->
-  <xacro:arg name="xyz" default="0.0 0.045 0.49" />
+  <xacro:arg name="xyz" default="0.0 -0.045 0.3" />
   <xacro:arg name="rpy" default="0 0 0" />
 
   <link name="chassis">
