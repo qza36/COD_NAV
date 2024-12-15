@@ -57,8 +57,8 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.75
-      yaw_goal_tolerance: 0.75
+      xy_goal_tolerance: 1.0
+      yaw_goal_tolerance: 1.0
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 56  #是指在每个控制周期内，控制器将生成的轨迹点数。
@@ -76,19 +76,20 @@ controller_server:
       ay_max: 2.0 #控制器的侧向加速度最大值。
       az_max: 2.0 #控制器的角加速度最大值。
       iteration_count: 1 #控制器的迭代次数。
-      prune_distance: 4.0 #控制器的轨迹剪枝距离。
+      prune_distance: 2.0 #控制器的轨迹剪枝距离。
       transform_tolerance: 0.1 #控制器的变换容忍度, 用于判断是否需要重新计算轨迹，值越大，越容易重新计算。
       temperature: 0.3 #控制器的温度。
       gamma: 0.015 #控制器的 gamma 值,
       motion_model: "Omni" #控制器的运动模型。
       visualize: true #是否可视化。
-      reset_period: 1.0 # (only in Humble)
-      regenerate_noises: false
+      reset_period: 0.1 # (only in Humble)
+      retry_attempt_limit: 2 #软重置的尝试次数
+      regenerate_noises: true
       TrajectoryVisualizer:
         trajectory_step: 5 #是指在可视化轨迹时，每隔多少个轨迹点绘制一个点。
         time_step: 3 #是指在可视化轨迹时，每隔多少个时间步长绘制一个点。
       AckermannConstraints:
-        min_turning_r: 0.2
+        min_turning_r: 0.35
       critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic" , "ObstaclesCritic"]
       ConstraintCritic:
         enabled: true
@@ -110,10 +111,10 @@ controller_server:
         cost_weight: 5.0
         threshold_to_consider: 0.5
       ObstaclesCritic: #障碍物
-         enabled: true
+         enabled: false
          cost_power: 1
          repulsion_weight: 1.5
-         critical_weight: 20.0
+         critical_weight: 10.0
          consider_footprint: false
          collision_cost: 10000.0
          collision_margin_distance: 0.1
@@ -124,16 +125,16 @@ controller_server:
         enabled: true
         cost_power: 1
         cost_weight: 3.81
-        critical_cost: 300.0 #临界代价
+        critical_cost: 50.0 #临界代价
         consider_footprint: true
         collision_cost: 1000000.0 #碰撞代价
-        near_goal_distance: 1.0 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
+        near_goal_distance: 0.1 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
         trajectory_point_step: 2 #轨迹点步长
       PathAlignCritic: #路径对齐
         enabled: true
         cost_power: 1
-        cost_weight: 50.0 # 代价权重
-        max_path_occupancy_ratio: 0.05
+        cost_weight: 10.0 # 代价权重
+        max_path_occupancy_ratio: 0.5
         trajectory_point_step: 1 #轨迹点步长
         threshold_to_consider: 0.5 # 考虑的阈值
         offset_from_furthest: 20
@@ -143,13 +144,13 @@ controller_server:
         cost_power: 1
         cost_weight: 50.0 # 代价权重
         offset_from_furthest: 5 # 距离最远点的偏移量
-        threshold_to_consider: 1.4 # 考虑的阈值
+        threshold_to_consider: 0.4 # 考虑的阈值
       PathAngleCritic: #路径角度
         enabled: false
         cost_power: 1
         cost_weight: 2.0
         offset_from_furthest: 4
-        threshold_to_consider: 0.5
+        threshold_to_consider: 0.2
         max_angle_to_furthest: 1.0
         mode: 0
       # VelocityDeadbandCritic: #速度死区
