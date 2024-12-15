@@ -69,10 +69,10 @@ controller_server:
       teb_autosize: 1.0                             #是否自动调整轨迹大小。根据时间分辨率自动调整轨迹大小
       dt_ref: 0.6                                   #轨迹的期望时间分辨率（应该与底层控制速率的数量级相符）
       dt_hysteresis: 0.06                           #自动调整大小的滞后（根据当前时间分辨率 dt）：通常为 dt_ref 的 10%
-      max_samples: 500                              #最大样本数量；警告：如果太小，离散化/分辨率可能不足以用于给定的机器人模型，或者避障不再有效。
+      max_samples: 1000                              #最大样本数量；警告：如果太小，离散化/分辨率可能不足以用于给定的机器人模型，或者避障不再有效。
       global_plan_overwrite_orientation: False      #覆盖全局规划器提供的局部子目标的方向
-      allow_init_with_backwards_motion: True        #如果为真，基础轨迹可能会以后退运动初始化，以防目标在本地代价地图中位于起点之后（仅当机器人配备后部传感器时推荐）
-      max_global_plan_lookahead_dist: 2.0           #指定用于优化考虑的全局规划子集的最大长度（累积欧氏距离）[如果 <=0：禁用；长度也受到本地代价地图大小的限制！
+      allow_init_with_backwards_motion: False       #如果为真，基础轨迹可能会以后退运动初始化，以防目标在本地代价地图中位于起点之后（仅当机器人配备后部传感器时推荐）
+      max_global_plan_lookahead_dist: 4.0           #指定用于优化考虑的全局规划子集的最大长度（累积欧氏距离）[如果 <=0：禁用；长度也受到本地代价地图大小的限制！
       force_reinit_new_goal_dist: 1.0               #如果之前的目标更新距离超过此值，则强制规划器重新初始化轨迹
       force_reinit_new_goal_angular: 0.78           #如果之前的目标更新的角度超过此弧度值，则强制规划器重新初始化轨迹
       feasibility_check_no_poses: 0                 #在预测路径上，每个采样间隔需要检查可行性的姿态数目
@@ -85,7 +85,7 @@ controller_server:
       # ViaPoints 中间点
       #*******************************************************************************
       global_plan_viapoint_sep: 0.5         #从全局计划中提取的连续中间点之间的最小分离距离
-      via_points_ordered: False             #是否遵循存储容器中中间点的顺序
+      via_points_ordered: True             #是否遵循存储容器中中间点的顺序
 
       #*******************************************************************************
       # Robot
@@ -95,7 +95,7 @@ controller_server:
       max_vel_theta: 6.0                    #最大转向角速度
       acc_lim_x: 2.0                        #最大平移加速度
       acc_lim_theta: 6.0                    #最大角加速度
-      is_footprint_dynamic: False           #如果为真，在检查轨迹可行性之前更新足迹
+      is_footprint_dynamic: True           #如果为真，在检查轨迹可行性之前更新足迹
       use_proportional_saturation: False    #如果为true，则按比例减少所有扭曲分量（线性x和y以及角度z）（如果任何扭曲分量超过其相应的界限），而不是单独饱和每个扭曲分量
       transform_tolerance: 0.5              #在TF树中查询转换时的容差（秒）
 
@@ -124,7 +124,7 @@ controller_server:
       inflation_dist: 0.45                         #障碍物周围的缓冲区，用于增加安全裕度。此缓冲区内具有非零的惩罚代价
       dynamic_obstacle_inflation_dist: 0.7        #具有非零惩罚成本的动态障碍物预测位置周围的缓冲区（应大于min_obstacle_dist才能生效)
       include_dynamic_obstacles: True             #预测动态障碍物周围的缓冲区，用于增加安全裕度。此缓冲区内具有非零的惩罚代价
-      include_costmap_obstacles: False             #是否直接考虑代价地图中的障碍物 (如果没有单独的聚类和检测功能，则需要此选项)
+      include_costmap_obstacles: True             #是否直接考虑代价地图中的障碍物 (如果没有单独的聚类和检测功能，则需要此选项)
       legacy_obstacle_association: False          #是否严格遵循局部规划出来的路径。如果为真，则使用旧的关联策略 (为每个障碍物找到最近的 TEB 姿势)，否则使用新的关联策略 (为每个 TEB 姿势仅找到“相关”障碍物)
       costmap_obstacles_behind_robot_dist: 1.5    #限制规划时考虑的占据局部代价地图障碍物 (指定距离，米)。该值仅对机器人后方的障碍物生效。
       obstacle_poses_affected: 15                 #为了减少计算量，障碍物位置会附加到轨迹上最近的姿态上，但也会考虑一定数量的相邻姿态。
@@ -162,7 +162,7 @@ controller_server:
       weight_kinematics_turning_radius: 0.1   #强制最小转弯半径（小车型机器人）的优化权重
       weight_optimaltime: 0.1                 #优化轨迹并尽量缩短运动时间的权重，确保在规定的时间内到达目标
       weight_shortest_path: 0.0               #倾向于选择更短的路径，路径可能更加弯曲或不平坦
-      weight_obstacle: 100.0                  #与障碍物保持最小距离的权重
+      weight_obstacle: 0.0                  #与障碍物保持最小距离的权重
       weight_inflation: 0.2                   #优化轨迹并尽量避免膨胀区域的权重 (权重应设置较小)
       weight_dynamic_obstacle: 10.0           #与动态障碍物保持最小距离的权重
       weight_dynamic_obstacle_inflation: 0.2  #优化轨迹并尽量避免动态障碍物膨胀区域的权重 (权重应设置较小)
