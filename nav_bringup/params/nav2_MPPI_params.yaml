@@ -4,8 +4,8 @@ bt_navigator:
     global_frame: map
     robot_base_frame: chassis
     odom_topic: /Odometry
-    bt_loop_duration: 10
-    default_server_timeout: 20
+    bt_loop_duration: 5
+    default_server_timeout: 10
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -42,7 +42,7 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    controller_frequency: 20.0
+    controller_frequency: 30.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -52,21 +52,21 @@ controller_server:
     controller_plugins: ["FollowPath"]
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.4
+      required_movement_radius: 0.3
       movement_time_allowance: 10.0
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 1.0
-      yaw_goal_tolerance: 1.0
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 56  #是指在每个控制周期内，控制器将生成的轨迹点数。
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
-      vx_std: 0.2 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
-      vy_std: 0.2
-      wz_std: 0.2
+      vx_std: 0.3 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vy_std: 0.3
+      wz_std: 0.25
       vx_max: 2.0 #控制器的线速度最大值。
       vx_min: -2.0 #控制器的线速度最小值。
       vy_max: 2.0 #控制器的侧向速度最大值。
@@ -81,9 +81,9 @@ controller_server:
       temperature: 0.3 #控制器的温度。
       gamma: 0.015 #控制器的 gamma 值,
       motion_model: "Omni" #控制器的运动模型。
-      visualize: true #是否可视化。
+      visualize: false #是否可视化。
       reset_period: 0.1 # (only in Humble)
-      retry_attempt_limit: 2 #软重置的尝试次数
+      retry_attempt_limit: 1 #软重置的尝试次数
       regenerate_noises: true
       TrajectoryVisualizer:
         trajectory_step: 5 #是指在可视化轨迹时，每隔多少个轨迹点绘制一个点。
@@ -99,7 +99,7 @@ controller_server:
         enabled: true
         cost_power: 1
         cost_weight: 5.0
-        threshold_to_consider: 1.4 # 考虑的阈值,和速度有关，值越大，速度越慢
+        threshold_to_consider: 1.0 # 考虑的阈值,和速度有关，值越大，速度越慢
       GoalAngleCritic:
         enabled: true
         cost_power: 1
@@ -128,7 +128,7 @@ controller_server:
         critical_cost: 50.0 #临界代价
         consider_footprint: true
         collision_cost: 1000000.0 #碰撞代价
-        near_goal_distance: 0.1 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
+        near_goal_distance: 0.01 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
         trajectory_point_step: 2 #轨迹点步长
       PathAlignCritic: #路径对齐
         enabled: true
@@ -142,7 +142,7 @@ controller_server:
       PathFollowCritic: #是否跟随路径
         enabled: true
         cost_power: 1
-        cost_weight: 50.0 # 代价权重
+        cost_weight: 10.0 # 代价权重
         offset_from_furthest: 5 # 距离最远点的偏移量
         threshold_to_consider: 0.4 # 考虑的阈值
       PathAngleCritic: #路径角度
@@ -165,21 +165,21 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
-      update_frequency: 10.0
-      publish_frequency: 10.0
+      update_frequency: 20.0
+      publish_frequency: 20.0
       global_frame: map
       robot_base_frame: chassis
       use_sim_time: False
       rolling_window: true
-      width: 5
-      height: 5
+      width: 4
+      height: 4
       resolution: 0.05
-      robot_radius: 0.38
+      robot_radius: 0.4
       plugins: ["voxel_layer","inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.25
+        cost_scaling_factor: 4.0
+        inflation_radius: 0.33
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -192,14 +192,14 @@ local_costmap:
         observation_sources: scan
         scan:
           topic: /livox/lidar/pointcloud
-          max_obstacle_height: 2.0
+          max_obstacle_height: 1.0
           clearing: True
           marking: True
           data_type: "PointCloud2"
-          raytrace_max_range: 10.0
+          raytrace_max_range: 8.0
           raytrace_min_range: 0.5
-          obstacle_max_range: 5.5
-          obstacle_min_range: 0.5
+          obstacle_max_range: 8.5
+          obstacle_min_range: 0.1
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -208,13 +208,13 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 10.0
-      publish_frequency: 10.0
+      update_frequency: 20.0
+      publish_frequency: 20.0
       global_frame: map
       robot_base_frame: chassis
       use_sim_time: False
-      robot_radius: 0.38
-      resolution: 0.05
+      robot_radius: 0.4
+      resolution: 0.04
       track_unknown_space: true
       plugins: ["static_layer","obstacle_layer","inflation_layer"]
       obstacle_layer:
@@ -227,17 +227,17 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 3.0
-          raytrace_min_range: 0.0
-          obstacle_max_range: 2.5
-          obstacle_min_range: 0.0
+          raytrace_max_range: 6.0
+          raytrace_min_range: 0.5
+          obstacle_max_range: 6.5
+          obstacle_min_range: 0.5
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.40
+        inflation_radius: 0.3
       always_send_full_costmap: True
 
 map_server:
@@ -280,7 +280,7 @@ behavior_server:
   ros__parameters:
     costmap_topic: local_costmap/costmap_raw
     footprint_topic: local_costmap/published_footprint
-    cycle_frequency: 10.0
+    cycle_frequency: 30.0
     behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]
     spin:
       plugin: "nav2_behaviors/Spin"
