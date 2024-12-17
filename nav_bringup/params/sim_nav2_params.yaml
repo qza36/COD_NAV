@@ -1,11 +1,11 @@
 bt_navigator:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     global_frame: map
     robot_base_frame: chassis
     odom_topic: /Odometry
-    bt_loop_duration: 5
-    default_server_timeout: 10
+    bt_loop_duration: 10
+    default_server_timeout: 20
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
@@ -41,7 +41,7 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     controller_frequency: 30.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
@@ -169,7 +169,7 @@ local_costmap:
       publish_frequency: 20.0
       global_frame: map
       robot_base_frame: chassis
-      use_sim_time: False
+      use_sim_time: True
       rolling_window: true
       width: 4
       height: 4
@@ -212,7 +212,7 @@ global_costmap:
       publish_frequency: 20.0
       global_frame: map
       robot_base_frame: chassis
-      use_sim_time: False
+      use_sim_time: True
       robot_radius: 0.4
       resolution: 0.04
       track_unknown_space: true
@@ -242,14 +242,14 @@ global_costmap:
 
 map_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     # Overridden in launch by the "map" launch configuration or provided default value.
     # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
     yaml_filename: ""
 
 map_saver:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -258,7 +258,7 @@ map_saver:
 planner_server:
   ros__parameters:
     expected_planner_frequency: 20.0
-    use_sim_time: False
+    use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
@@ -268,7 +268,7 @@ planner_server:
 
 smoother_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
@@ -295,7 +295,7 @@ behavior_server:
     global_frame: map
     robot_base_frame: chassis
     transform_tolerance: 0.1
-    use_sim_time: false
+    use_sim_time: true
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
@@ -303,11 +303,11 @@ behavior_server:
 
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
 
 waypoint_follower:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"
