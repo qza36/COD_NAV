@@ -1,9 +1,9 @@
 name: Build
 on:
   push:
-    branches: [ humble ]
+    branches: [ dev ]
   pull_request:
-    branches: [ humble ]
+    branches: [ dev ]
 
 jobs:
   build-and-test:
