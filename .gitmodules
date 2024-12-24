@@ -1,0 +1,3 @@
+[submodule "pb_omni_pid_pursuit_controller"]
+	path = pb_omni_pid_pursuit_controller
+	url = https://github.com/LihanChen2004/pb_omni_pid_pursuit_controller.git
