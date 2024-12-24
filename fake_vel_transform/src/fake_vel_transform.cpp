@@ -14,8 +14,8 @@ FakeVelTransform::FakeVelTransform(const rclcpp::NodeOptions & options)
   this->declare_parameter<std::string>("robot_base_frame", "chassis");
   this->declare_parameter<std::string>("fake_robot_base_frame", "chassis_fake");
   this->declare_parameter<std::string>("odom_topic", "odom");
-  this->declare_parameter<std::string>("input_cmd_vel_topic", "cmd_vel_smoothed");
-  this->declare_parameter<std::string>("output_cmd_vel_topic", "cmd_vel");
+  this->declare_parameter<std::string>("input_cmd_vel_topic", "cmd_vel");
+  this->declare_parameter<std::string>("output_cmd_vel_topic", "aft_cmd_vel");
   this->declare_parameter<float>("spin_speed", 0.0);
 
   this->get_parameter("robot_base_frame", robot_base_frame_);

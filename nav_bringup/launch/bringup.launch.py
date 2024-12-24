@@ -60,6 +60,12 @@ def generate_launch_description():
                 name='pointcloud_to_laserscan'
             ),
             Node(
+                package="fake_vel_transform",
+                executable="fake_vel_transform_node",
+                output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
+            ),
+            Node(
                 package='fast_lio',
                 executable='fastlio_mapping',
                 parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
