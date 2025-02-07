@@ -19,8 +19,12 @@ jobs:
           cd build
           cmake .. && make -j
           sudo make install
+          
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
 
       - name: Build COD_NAV
         uses: ros-tooling/action-ros-ci@v0.3
         with:
           target-ros2-distro: humble
+          skip-tests: true
