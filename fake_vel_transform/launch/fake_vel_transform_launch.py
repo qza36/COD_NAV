@@ -4,7 +4,7 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration("use_sim_time", default="True")
+    use_sim_time = LaunchConfiguration("use_sim_time", default="False")
 
     fake_vel_transform_node = Node(
         package="fake_vel_transform",

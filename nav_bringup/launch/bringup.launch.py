@@ -11,6 +11,7 @@ def generate_launch_description():
     # 获取包的共享目录
     fastlio_dir = get_package_share_directory('fast_lio')
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
+    livox_driver_dir = get_package_share_directory('livox_ros_driver2')
 
     # 配置文件路径
     robot_description = Command(['xacro ', os.path.join(
@@ -72,8 +73,17 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
+            Node(
+                package= 'cod_serial',
+                executable= 'cod_serial',
+                output= 'screen'
+            ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
+                launch_arguments={'use_sim_time': use_sim_time}.items()
+            ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             )
         ]
