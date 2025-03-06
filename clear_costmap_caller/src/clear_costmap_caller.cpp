@@ -5,7 +5,7 @@
 
 using namespace std::chrono_literals;
 
-class ClearCostmapCaller : public rclcpp::Node
+class ClearCostmapCaller final : public rclcpp::Node
 {
 public:
   ClearCostmapCaller()
@@ -70,7 +70,7 @@ private:
 int main(int argc, char **argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::make_shared<ClearCostmapCaller>();
+  const auto node = std::make_shared<ClearCostmapCaller>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;
