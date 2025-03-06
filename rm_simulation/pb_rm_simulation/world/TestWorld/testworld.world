@@ -479,7 +479,7 @@
         <collision name='collision'>
           <geometry>
             <box>
-              <size>1 0.999999 0.999996</size>
+              <size>1 0.999998 1</size>
             </box>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -499,7 +499,7 @@
         <visual name='visual'>
           <geometry>
             <box>
-              <size>1 0.999999 0.999996</size>
+              <size>1 0.999998 1</size>
             </box>
           </geometry>
           <material>
@@ -515,10 +515,10 @@
       </link>
     </model>
     <state world_name='default'>
-      <sim_time>180 570000000</sim_time>
-      <real_time>180 812206991</real_time>
-      <wall_time>1741275360 99153816</wall_time>
-      <iterations>180570</iterations>
+      <sim_time>241 726000000</sim_time>
+      <real_time>61 222651849</real_time>
+      <wall_time>1741282117 42751169</wall_time>
+      <iterations>61156</iterations>
       <model name='ground_plane'>
         <pose>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -530,7 +530,7 @@
         </link>
       </model>
       <model name='testwall'>
-        <pose>5.16598 0.061501 0 0 -0 0</pose>
+        <pose>5.16598 0.0615 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_0'>
           <pose>-2.14245 1.20717 0 0 -0 1.5708</pose>
@@ -576,23 +576,23 @@
         </link>
       </model>
       <model name='unit_box'>
-        <pose>6.20201 -0.41323 0.231909 6e-06 -6e-06 0.002824</pose>
+        <pose>6.31684 -0.412443 0.231858 0 -8.9e-05 0.003111</pose>
         <scale>1 1 0.463817</scale>
         <link name='link'>
-          <pose>6.20201 -0.41323 0.231909 6e-06 -6e-06 0.002824</pose>
+          <pose>6.31684 -0.412443 0.231858 0 -8.9e-05 0.003111</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.124484 -0.047493 9.97975 0.176298 -0.49501 -0.010128</acceleration>
-          <wrench>-0.124484 -0.047493 9.97975 0 -0 0</wrench>
+          <acceleration>9.33837 0.519502 -21.5918 2.82444 0.390942 -2.76545</acceleration>
+          <wrench>9.33837 0.519502 -21.5918 0 -0 0</wrench>
         </link>
       </model>
       <model name='unit_box_0'>
-        <pose>4.9396 -0.561239 0.312045 3e-06 -0.238226 0.002972</pose>
+        <pose>4.95759 -0.560997 0.234328 0 -0.237326 0.003111</pose>
         <scale>2.37692 6.1063 0.065042</scale>
         <link name='link'>
-          <pose>4.9396 -0.561239 0.312045 3e-06 -0.238226 0.002972</pose>
+          <pose>4.95759 -0.560997 0.234328 0 -0.237326 0.003111</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
+          <acceleration>1.3773 -0.126616 -8.4227 0.836768 0.632433 -0.235293</acceleration>
+          <wrench>1.3773 -0.126616 -8.4227 0 -0 0</wrench>
         </link>
       </model>
       <light name='sun'>
@@ -601,7 +601,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>0.998317 -8.96698 15.3276 -0 0.931644 1.38021</pose>
+        <pose>-1.40946 -0.018501 5.72835 0 0.621804 -0.228717</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>

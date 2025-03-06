@@ -15,3 +15,12 @@
   ```shell
     ros2 launch cod_nav cod_nav.launch.py
     ```
+  - 实用工具
+    - 保存地图
+      ```shell
+      ros2 service call /map_save std_srvs/srv/Trigger
+      ```
+    - 小键盘控制
+      ```shell
+      ros2 run teleop_twist_keyboard teleop_twist_keyboard
+      ```

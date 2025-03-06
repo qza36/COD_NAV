@@ -205,7 +205,7 @@
         <plugin name="mecanum_controller" filename="libgazebo_ros_planar_move.so">
             <ros>
                 <!-- <namespace>/demo</namespace> -->
-                <remapping>cmd_vel:=cmd_vel_chassis</remapping>
+                <remapping>cmd_vel:=cmd_vel</remapping>
                 <remapping>odom:=odom</remapping>
             </ros>
 
