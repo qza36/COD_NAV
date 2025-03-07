@@ -7,3 +7,6 @@
 [submodule "terrain_analysis"]
     path = terrain_analysis
     url = https://github.com/qza36/terrain_analysis.git
+[submodule "pb_nav_plugins"]
+    path = pb_nav_plugins
+    url = https://github.com/qza36/pb_nav2_plugins.git
