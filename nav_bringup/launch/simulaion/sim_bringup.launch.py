@@ -11,6 +11,7 @@ def generate_launch_description():
     # 获取包的共享目录
     fastlio_dir = get_package_share_directory('fast_lio')
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
+    terrrain_analysis_dir = get_package_share_directory('terrain_analysis')
 
     # 配置文件路径
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
@@ -55,6 +56,10 @@ def generate_launch_description():
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/sim_lidar_localization.launch.py']),
+                launch_arguments={'use_sim_time': use_sim_time}.items()
+            ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([terrrain_analysis_dir,'/launch/terrain_analysis_launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             )
         ]
