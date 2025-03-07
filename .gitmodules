@@ -4,3 +4,6 @@
 [submodule "ros2_simple_serial"]
 	path = ros2_simple_serial
 	url = https://gitee.com/qza36/ros2_simple_serial.git
+[submodule "terrain_analysis"]
+    path = terrain_analysis
+    url = https://github.com/qza36/terrain_analysis.git
