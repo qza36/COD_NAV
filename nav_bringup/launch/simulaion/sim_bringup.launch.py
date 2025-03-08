@@ -54,6 +54,12 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
+            Node(
+                package='ign_sim_pointcloud_tool',
+                executable='ign_sim_pointcloud_tool_node',
+                parameters=[{'use_sim_time': use_sim_time}],
+                output='screen'
+            ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/sim_lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()

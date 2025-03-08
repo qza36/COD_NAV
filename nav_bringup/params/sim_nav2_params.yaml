@@ -280,7 +280,7 @@ local_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
         inflation_radius: 0.7
-      always_send_full_costmap: False
+      always_send_full_costmap: True
 
 global_costmap:
   global_costmap:
@@ -300,11 +300,11 @@ global_costmap:
         footprint_clearing_enabled: True
         min_obstacle_intensity: 0.1
         max_obstacle_intensity: 2.0
-        observation_sources: terrain_map
+        observation_sources: /terrain_map
         terrain_map:
           # '<robot_namespace>' keyword shall be replaced with 'namespace' where user defined.
           # It doesn't need to start with '/'
-          topic: terrain_map
+          topic: /terrain_map
           clearing: True
           marking: True
           data_type: "PointCloud2"
@@ -321,7 +321,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
         inflation_radius: 0.7
-      always_send_full_costmap: False
+      always_send_full_costmap: True
 
 
 map_server:
