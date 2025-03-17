@@ -16,7 +16,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     pkg_share = FindPackageShare(package=package_name).find(package_name)
     urdf_model_path = os.path.join(pkg_share, f'urdf/{urdf_name}')
-    gazebo_world_path = os.path.join(pkg_share, 'world/TestWorld/testworld.world')
+    gazebo_world_path = os.path.join(pkg_share, 'world/ul24/ul24.world')
 
 # Process xacro file to generate URDF
     robot_description = ParameterValue(
@@ -60,7 +60,11 @@ def generate_launch_description():
         executable='spawn_entity.py',
         arguments=[
             '-entity', robot_name_in_model,
-            '-topic', 'robot_description'
+            '-topic', 'robot_description',
+            # '-x', '4.3',
+            # '-y', '3.35',
+            # '-z', '1.16',
+            # '-Y', '0.0'  # Note: yaw uses capital 'Y' in spawn_entity.py
         ],
         output='screen'
     )
