@@ -1,9 +1,3 @@
-[submodule "pb_omni_pid_pursuit_controller"]
-	path = pb_omni_pid_pursuit_controller
-	url = https://github.com/LihanChen2004/pb_omni_pid_pursuit_controller.git
-[submodule "ros2_simple_serial"]
-	path = ros2_simple_serial
-	url = https://gitee.com/qza36/ros2_simple_serial.git
-[submodule "patchwork-plusplus-ros"]
-    path = patchwork-plusplus-ros
-    url = https://github.com/url-kaist/patchwork-plusplus-ros.git
+[submodule "patchwork-plusplus"]
+    path = patchwork-plusplus
+    url = https://github.com/url-kaist/patchwork-plusplus.git
