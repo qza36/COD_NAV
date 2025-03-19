@@ -10,8 +10,6 @@ def generate_launch_description():
     # 获取包的共享目录
     fastlio_dir = get_package_share_directory('fast_lio')
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
-    terrrain_analysis_dir = get_package_share_directory('terrain_analysis')
-
     # 配置文件路径
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
