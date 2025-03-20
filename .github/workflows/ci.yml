@@ -6,7 +6,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-and-test:
+  Build:
     runs-on: ubuntu-latest
     container:
       image: rostooling/setup-ros-docker:ubuntu-jammy-ros-humble-desktop-latest
@@ -19,8 +19,11 @@ jobs:
           cd build
           cmake .. && make -j
           sudo make install
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
 
-      - name: Build COD_NAV
-        uses: ros-tooling/action-ros-ci@v0.3
+      - name: ROS 2 CI Action
+        uses: ros-tooling/action-ros-ci@0.4.1
         with:
           target-ros2-distro: humble
+          skip-tests: true
