@@ -20,6 +20,7 @@ def generate_launch_description():
                   ('/tf_static', 'tf_static')]
 
 
+
 # 声明启动参数
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
@@ -88,15 +89,7 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
-            Node(
-                parameters=[
-                    slam_params_file,
-                    {'use_sim_time': use_sim_time}
-                ],
-                package='slam_toolbox',
-                executable='async_slam_toolbox_node',
-                name='slam_toolbox',
-                output='screen'),
+
             Node(
                 package='nav2_controller',
                 executable='controller_server',
@@ -176,6 +169,15 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time},
                             {'autostart': autostart},
                             {'node_names': lifecycle_nodes}]),
+            Node(
+                parameters=[
+                    slam_params_file,
+                    {'use_sim_time': use_sim_time}
+                ],
+                package='slam_toolbox',
+                executable='async_slam_toolbox_node',
+                name='slam_toolbox',
+                output='screen'),
         ]
     )
     ld = LaunchDescription()
