@@ -82,10 +82,10 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
-                launch_arguments={'use_sim_time': use_sim_time}.items()
-            )
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
+            #     launch_arguments={'use_sim_time': use_sim_time}.items()
+            # )
         ]
     )
 
