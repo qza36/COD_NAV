@@ -20,7 +20,6 @@ def generate_launch_description():
 
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
-    localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
 
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
@@ -80,15 +79,16 @@ def generate_launch_description():
                 output= 'screen'
             ),
             IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
-                launch_arguments={'use_sim_time': use_sim_time}.items()
-            ),
-            IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
             IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([bring_up_dir])
+                PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
+                launch_arguments={'use_sim_time': use_sim_time}.items()
+            ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([bring_up_dir],'/launch/nav_bring_up.launch.py'),
+                launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/cod_nav/codmap.yaml'}.items()
             )
         ]
     )
