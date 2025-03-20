@@ -62,33 +62,33 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
-            Node(
-                package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-                remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
-                            ('scan', '/scan')],
-                parameters=[{
-                    'target_frame': 'chassis',
-                    'transform_tolerance': 0.01,
-                    'min_height': 0.0,
-                    'max_height': 0.65,
-                    'angle_min': -3.1416,  # -M_PI/2
-                    'angle_max': 3.1416,  # M_PI/2
-                    'angle_increment': 0.0087,  # M_PI/360.0
-                    'scan_time': 0.3333,
-                    'range_min': 0.05,
-                    'range_max': 5.0,
-                    'use_inf': True,
-                    'inf_epsilon': 1.0
-                }],
-                name='pointcloud_to_laserscan'
-            ),
-            Node(
-                package='fast_lio',
-                executable='fastlio_mapping',
-                parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
-                            {'use_sim_time': use_sim_time}],
-                output='screen'
-            ),
+            # Node(
+            #     package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
+            #     remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
+            #                 ('scan', '/scan')],
+            #     parameters=[{
+            #         'target_frame': 'chassis',
+            #         'transform_tolerance': 0.01,
+            #         'min_height': 0.0,
+            #         'max_height': 0.65,
+            #         'angle_min': -3.1416,  # -M_PI/2
+            #         'angle_max': 3.1416,  # M_PI/2
+            #         'angle_increment': 0.0087,  # M_PI/360.0
+            #         'scan_time': 0.3333,
+            #         'range_min': 0.05,
+            #         'range_max': 5.0,
+            #         'use_inf': True,
+            #         'inf_epsilon': 1.0
+            #     }],
+            #     name='pointcloud_to_laserscan'
+            # ),
+            # Node(
+            #     package='fast_lio',
+            #     executable='fastlio_mapping',
+            #     parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
+            #                 {'use_sim_time': use_sim_time}],
+            #     output='screen'
+            # ),
 
             Node(
                 package='nav2_controller',
@@ -169,15 +169,15 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time},
                             {'autostart': autostart},
                             {'node_names': lifecycle_nodes}]),
-            Node(
-                parameters=[
-                    slam_params_file,
-                    {'use_sim_time': use_sim_time}
-                ],
-                package='slam_toolbox',
-                executable='async_slam_toolbox_node',
-                name='slam_toolbox',
-                output='screen'),
+            # Node(
+            #     parameters=[
+            #         slam_params_file,
+            #         {'use_sim_time': use_sim_time}
+            #     ],
+            #     package='slam_toolbox',
+            #     executable='async_slam_toolbox_node',
+            #     name='slam_toolbox',
+            #     output='screen'),
         ]
     )
     ld = LaunchDescription()

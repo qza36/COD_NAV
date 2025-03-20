@@ -11,19 +11,30 @@
   ```shell
   colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja
   ```
-- run
-  ```shell
-    ros2 launch cod_nav cod_nav.launch.py
-    ```
-  - 实用工具
-    - 保存地图
-      ```shell
-      ros2 service call /map_save std_srvs/srv/Trigger
+  - run
+    ```shell
+      ros2 launch cod_nav cod_nav.launch.py
       ```
-    - 小键盘控制
-      ```shell
-      ros2 run teleop_twist_keyboard teleop_twist_keyboard
+    - 实用工具
+      - 保存地图
+        ```shell
+        ros2 service call /map_save std_srvs/srv/Trigger
+        ```
+      - 小键盘控制
+        ```shell
+        ros2 run teleop_twist_keyboard teleop_twist_keyboard
+        ```
+        ### SLAM
+      - 使用slam导航，启动test.launch.py里面之后mapserver
+      - 随后启动sim_slam.launch.py,里面包含nav2的导航组件，目前仿真总是出现
       ```
+      Message Filter dropping message: frame 'odom' at time 310.388 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+      ```
+      - 怀疑是fast_lio仿真问题，实车待测试
+      - 保存地图
+      ```shell
+        ros2 run nav2_map_server map_saver_cli -f MAP_NAME
+        ```
 ## TODO
 
 - [ ] 实现SLAM时导航

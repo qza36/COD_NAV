@@ -51,13 +51,7 @@ def generate_launch_description():
     log_level = LaunchConfiguration('log_level')
     slam_params_file = LaunchConfiguration('slam_params_file')
 
-    lifecycle_nodes = ['controller_server',
-                       'smoother_server',
-                       'planner_server',
-                       'behavior_server',
-                       'bt_navigator',
-                       'waypoint_follower',
-                       'velocity_smoother']
+    lifecycle_nodes = ["map_server"]
 
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
@@ -83,101 +77,63 @@ def generate_launch_description():
                 name='pointcloud_to_laserscan'
             ),
             Node(
-                package='fast_lio',
-                executable='fastlio_mapping',
-                parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
-                            {'use_sim_time': use_sim_time}],
-                output='screen'
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                name="static_transform_publisher_map2odom",
+                output="screen",
+                arguments=[
+                    "--x",
+                    "0.0",
+                    "--y",
+                    "0.0",
+                    "--z",
+                    "0.0",
+                    "--roll",
+                    "0.0",
+                    "--pitch",
+                    "0.0",
+                    "--yaw",
+                    "0.0",
+                    "--frame-id",
+                    "map",
+                    "--child-frame-id",
+                    "odom",
+                ],
             ),
-            #
-            # Node(
-            #     package='nav2_controller',
-            #     executable='controller_server',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings+[('cmd_vel', 'cmd_vel_nav')]),
-            # Node(
-            #     package='nav2_smoother',
-            #     executable='smoother_server',
-            #     name='smoother_server',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings),
-            # Node(
-            #     package='nav2_planner',
-            #     executable='planner_server',
-            #     name='planner_server',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings),
-            # Node(
-            #     package='nav2_behaviors',
-            #     executable='behavior_server',
-            #     name='behavior_server',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings),
-            # Node(
-            #     package='nav2_bt_navigator',
-            #     executable='bt_navigator',
-            #     name='bt_navigator',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings),
-            # Node(
-            #     package='nav2_waypoint_follower',
-            #     executable='waypoint_follower',
-            #     name='waypoint_follower',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings),
-            # Node(
-            #     package='nav2_velocity_smoother',
-            #     executable='velocity_smoother',
-            #     name='velocity_smoother',
-            #     output='screen',
-            #     respawn=use_respawn,
-            #     respawn_delay=2.0,
-            #     parameters=[configured_params],
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     remappings=remappings +
-            #                [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
-            # Node(
-            #     package='nav2_lifecycle_manager',
-            #     executable='lifecycle_manager',
-            #     name='lifecycle_manager_navigation',
-            #     output='screen',
-            #     arguments=['--ros-args', '--log-level', log_level],
-            #     parameters=[{'use_sim_time': use_sim_time},
-            #                 {'autostart': autostart},
-            #                 {'node_names': lifecycle_nodes}]),
+             Node(
+                 package='fast_lio',
+                 executable='fastlio_mapping',
+                 parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
+                             {'--ros-args', 'use_sim_time',use_sim_time}],
+                 output='screen'
+             ),
             Node(
                 parameters=[
                     slam_params_file,
                     {'use_sim_time': use_sim_time}
                 ],
                 package='slam_toolbox',
-                executable='async_slam_toolbox_node',
+                executable='sync_slam_toolbox_node',
                 name='slam_toolbox',
                 output='screen'),
+            Node(
+                package="nav2_map_server",
+                executable="map_saver_server",
+                output="screen",
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                arguments=["--ros-args", "--log-level", log_level],
+                parameters=[configured_params],
+            ),
+            Node(
+                package='nav2_lifecycle_manager',
+                executable='lifecycle_manager',
+                name='lifecycle_manager_navigation',
+                output='screen',
+                arguments=['--ros-args', '--log-level', log_level],
+                parameters=[{'use_sim_time': use_sim_time},
+                            {'autostart': autostart},
+                            {'node_names': lifecycle_nodes}]),
         ]
     )
     ld = LaunchDescription()
