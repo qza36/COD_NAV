@@ -20,6 +20,7 @@ def generate_launch_description():
 
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
+    localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
 
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
