@@ -111,16 +111,16 @@ controller_server:
         cost_weight: 5.0
         threshold_to_consider: 0.5
       ObstaclesCritic: #障碍物
-         enabled: false
-         cost_power: 1
-         repulsion_weight: 1.5
-         critical_weight: 10.0
-         consider_footprint: false
-         collision_cost: 10000.0
-         collision_margin_distance: 0.1
-         near_goal_distance: 0.5
-         inflation_radius: 0.55 # (only in Humble)
-         cost_scaling_factor: 10.0 # (only in Humble)
+        enabled: false
+        cost_power: 1
+        repulsion_weight: 1.5
+        critical_weight: 10.0
+        consider_footprint: false
+        collision_cost: 10000.0
+        collision_margin_distance: 0.1
+        near_goal_distance: 0.5
+        inflation_radius: 0.55 # (only in Humble)
+        cost_scaling_factor: 10.0 # (only in Humble)
       CostCritic: #代价，用于计算代价，代价越大，越不容易选择
         enabled: true
         cost_power: 1
@@ -171,15 +171,15 @@ local_costmap:
       robot_base_frame: chassis
       use_sim_time: False
       rolling_window: true
-      width: 8
-      height: 8
+      width: 4
+      height: 4
       resolution: 0.05
       robot_radius: 0.4
       plugins: ["voxel_layer","inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 0.1
+        inflation_radius: 0.4
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -238,7 +238,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 0.1
+        inflation_radius: 0.4
       always_send_full_costmap: True
 
 map_server:

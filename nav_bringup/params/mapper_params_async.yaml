@@ -9,6 +9,9 @@ slam_toolbox:
     ceres_dogleg_type: TRADITIONAL_DOGLEG
     ceres_loss_function: None
 
+
+    publish_tf_to_odom_frame: False
+
     # ROS Parameters
     odom_frame: odom
     map_frame: map

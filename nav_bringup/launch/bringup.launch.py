@@ -41,6 +41,10 @@ def generate_launch_description():
                 }],
                 output='screen'
             ),
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
+            #     launch_arguments={'use_sim_time': use_sim_time}.items()
+            # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
                 remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
@@ -87,10 +91,10 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([bring_up_dir],'/launch/nav_bring_up.launch.py'),
-                launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/cod_nav/codmap.yaml'}.items()
-            )
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
+            #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
+            # )
         ]
     )
 
