@@ -52,8 +52,8 @@ def generate_launch_description():
                 parameters=[{
                     'target_frame': 'chassis',
                     'transform_tolerance': 0.01,
-                    'min_height': 0.0,
-                    'max_height': 0.65,
+                    'min_height': 0.43,
+                    'max_height': 1.00,
                     'angle_min': -3.1416,  # -M_PI/2
                     'angle_max': 3.1416,  # M_PI/2
                     'angle_increment': 0.0087,  # M_PI/360.0
@@ -79,10 +79,15 @@ def generate_launch_description():
                 output='screen'
             ),
             Node(
-                package= 'cod_serial',
-                executable= 'cod_serial',
-                output= 'screen'
+                package='clear_costmap_caller',
+                executable='clear_costmap_caller',
+                output='screen'
             ),
+             Node(
+                 package= 'cod_serial',
+                 executable= 'cod_serial',
+                 output= 'screen'
+             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()

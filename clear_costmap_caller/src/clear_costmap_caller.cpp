@@ -17,17 +17,17 @@ public:
     local_client_ = this->create_client<nav2_msgs::srv::ClearEntireCostmap>(
       "/local_costmap/clear_entirely_local_costmap");
 
-    RCLCPP_INFO(this->get_logger(), "Waiting for services to become available...");
+    //RCLCPP_INFO(this->get_logger(), "Waiting for services to become available...");
 
     // 等待服务可用
     while (!global_client_->wait_for_service(1s) || !local_client_->wait_for_service(1s)) {
       RCLCPP_WARN(this->get_logger(), "Services not available, waiting...");
     }
 
-    RCLCPP_INFO(this->get_logger(), "Services available, starting timer.");
+    //RCLCPP_INFO(this->get_logger(), "Services available, starting timer.");
 
     // 创建定时器，每0.5秒调用一次服务
-    timer_ = this->create_wall_timer(1000ms, std::bind(&ClearCostmapCaller::call_services, this));
+    timer_ = this->create_wall_timer(2000ms, std::bind(&ClearCostmapCaller::call_services, this));
   }
 
 private:
@@ -47,7 +47,7 @@ private:
         this->service_response_callback("Local Costmap", future);
       });
 
-    RCLCPP_INFO(this->get_logger(), "Service calls sent for clearing costmaps.");
+    //RCLCPP_INFO(this->get_logger(), "Service calls sent for clearing costmaps.");
   }
 
   void service_response_callback(
@@ -56,7 +56,7 @@ private:
   {
     try {
       auto response = future.get();
-      RCLCPP_INFO(this->get_logger(), "Successfully cleared %s.", costmap_type.c_str());
+      //RCLCPP_INFO(this->get_logger(), "Successfully cleared %s.", costmap_type.c_str());
     } catch (const std::exception &e) {
       RCLCPP_ERROR(this->get_logger(), "Failed to clear %s: %s", costmap_type.c_str(), e.what());
     }

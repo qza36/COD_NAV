@@ -1,13 +1,13 @@
 /**:
     ros__parameters:
-      registration_method: "NDT" #点云配准的方法，支持 "NDT", "GICP", "NDT_OMP", "GICP_OMP"。NDT_OMP 在并行处理时速度较快，适合大规模数据。
+      registration_method: "GICP" #点云配准的方法，支持 "NDT", "GICP", "NDT_OMP", "GICP_OMP"。NDT_OMP 在并行处理时速度较快，适合大规模数据。
       score_threshold: 3.8            #配准分数阈值，通常配准分数低于该值表示配准失败，可以调整以提高鲁棒性。
       ndt_resolution: 0.5             #NDT 网格分辨率，较小的分辨率可以提高精度，但会增加计算量。
       ndt_step_size: 0.5              #NDT 配准时的步长，影响收敛速度和精度。
       ndt_num_threads: 0              #使用的线程数，0 表示使用最大可用线程数。如果使用 NDT_OMP，则这个值控制线程的数量。
-      ndt_max_iterations: 8000          #最大迭代次数
+      ndt_max_iterations: 4000          #最大迭代次数
       transform_epsilon: 0.01         #配准停止条件中的变换精度，表示当变换小于该值时停止配准。
-      voxel_leaf_size: 0.5            #点云的体素滤波器大小，用于减小点云数据量。
+      voxel_leaf_size: 0.3            #点云的体素滤波器大小，用于减小点云数据量。
       scan_max_range: 15.0             #输入点云的最大有效范围。
       scan_min_range: 0.1             #输入点云的最小有效范围。
       scan_period: 0.1                #输入点云的扫描周期。
