@@ -1,6 +1,6 @@
 /**:
     ros__parameters:
-      registration_method: "NDT" #点云配准的方法，支持 "NDT", "GICP", "NDT_OMP", "GICP_OMP"。NDT_OMP 在并行处理时速度较快，适合大规模数据。
+      registration_method: "GICP" #点云配准的方法，支持 "NDT", "GICP", "NDT_OMP", "GICP_OMP"。NDT_OMP 在并行处理时速度较快，适合大规模数据。
       score_threshold: 3.8            #配准分数阈值，通常配准分数低于该值表示配准失败，可以调整以提高鲁棒性。
       ndt_resolution: 0.5             #NDT 网格分辨率，较小的分辨率可以提高精度，但会增加计算量。
       ndt_step_size: 0.5              #NDT 配准时的步长，影响收敛速度和精度。
@@ -12,7 +12,7 @@
       scan_min_range: 0.1             #输入点云的最小有效范围。
       scan_period: 0.1                #输入点云的扫描周期。
       use_pcd_map: true               #是否使用预先存储的 PCD 地图文件进行配准。
-      map_path: "/home/cod-sentry/qza_ws/cod_nav/sim_test.pcd" #如果 use_pcd_map 为 true，则指定地图文件的路径。
+      map_path: "/home/arlo/CLionProjects/cod_sentry/sim_test.pcd" #如果 use_pcd_map 为 true，则指定地图文件的路径。
       set_initial_pose: true          #是否设置初始位姿，如果为 true，则可以在参数文件中设置初始值。
       translation_threshold: 0.1      #最大容忍平移矫正
       rotation_threshold: 0.3         #最大容忍旋转矫正
