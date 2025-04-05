@@ -52,7 +52,7 @@ def generate_launch_description():
                 parameters=[{
                     'target_frame': 'chassis',
                     'transform_tolerance': 0.01,
-                    'min_height': 0.43,
+                    'min_height': 0.2,
                     'max_height': 1.00,
                     'angle_min': -3.1416,  # -M_PI/2
                     'angle_max': 3.1416,  # M_PI/2
