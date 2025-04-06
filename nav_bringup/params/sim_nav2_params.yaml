@@ -2,8 +2,8 @@ bt_navigator:
   ros__parameters:
     use_sim_time: True
     global_frame: map
-    robot_base_frame: gimbal_yaw_fake
-    odom_topic: odometry
+    robot_base_frame: chassis_fake
+    odom_topic: Odometry
     bt_loop_duration: 10
     default_server_timeout: 100
     wait_for_service_timeout: 1000
@@ -100,7 +100,7 @@ controller_server:
       temperature: 0.3 #控制器的温度。
       gamma: 0.015 #控制器的 gamma 值,
       motion_model: "Omni" #控制器的运动模型。
-      visualize: false #是否可视化。
+      visualize: true #是否可视化。
       reset_period: 0.1 # (only in Humble)
       retry_attempt_limit: 1 #软重置的尝试次数
       regenerate_noises: true
@@ -187,7 +187,7 @@ local_costmap:
       update_frequency: 20.0
       publish_frequency: 20.0
       global_frame: odom
-      robot_base_frame: chassis
+      robot_base_frame: chassis_fake
       use_sim_time: True
       rolling_window: true
       width: 4
@@ -230,7 +230,7 @@ global_costmap:
       update_frequency: 20.0
       publish_frequency: 20.0
       global_frame: map
-      robot_base_frame: chassis
+      robot_base_frame: chassis_fake
       use_sim_time: True
       robot_radius: 0.25
       resolution: 0.04
@@ -340,7 +340,7 @@ behavior_server:
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: map
-    robot_base_frame: chassis
+    robot_base_frame: chassis_fake
     transform_tolerance: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0

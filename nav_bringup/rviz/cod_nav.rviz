@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /LaserScan1
+        - /Map1
+        - /Map2
       Splitter Ratio: 0.5
     Tree Height: 549
   - Class: rviz_common/Selection
@@ -26,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: LaserScan
 Visualization Manager:
   Class: ""
   Displays:
@@ -58,7 +60,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz_default_plugins/LaserScan
       Color: 255; 255; 255
-      Color Transformer: ""
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -67,7 +69,7 @@ Visualization Manager:
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: LaserScan
-      Position Transformer: ""
+      Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.009999999776482582
@@ -87,11 +89,7 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
-          Value: true
         chassis:
-          Value: true
-        dummy:
           Value: true
         imu_link:
           Value: true
@@ -100,6 +98,14 @@ Visualization Manager:
         map:
           Value: true
         odom:
+          Value: true
+        wheel_1:
+          Value: true
+        wheel_2:
+          Value: true
+        wheel_3:
+          Value: true
+        wheel_4:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -110,8 +116,61 @@ Visualization Manager:
         map:
           odom:
             chassis:
-              {}
+              imu_link:
+                {}
+              livox_frame:
+                {}
+              wheel_1:
+                {}
+              wheel_2:
+                {}
+              wheel_3:
+                {}
+              wheel_4:
+                {}
       Update Interval: 0
+      Value: true
+    - Alpha: 0.5
+      Class: rviz_default_plugins/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /global_costmap/costmap
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /global_costmap/costmap_updates
+      Use Timestamp: false
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz_default_plugins/Map
+      Color Scheme: costmap
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /local_costmap/costmap
+      Update Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /local_costmap/costmap_updates
+      Use Timestamp: false
       Value: true
   Enabled: true
   Global Options:
@@ -174,10 +233,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8047970533370972
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.393584251403809
+      Yaw: 3.133575439453125
     Saved: ~
 Window Geometry:
   Displays:
@@ -196,4 +255,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 70
-  Y: 60
+  Y: 131
