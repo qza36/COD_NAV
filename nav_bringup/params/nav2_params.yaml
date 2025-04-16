@@ -1,47 +1,36 @@
 bt_navigator:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: False
     global_frame: map
     robot_base_frame: chassis_fake
-    odom_topic: Odometry
-    bt_loop_duration: 10
-    default_server_timeout: 100
-    wait_for_service_timeout: 1000
-    default_nav_to_pose_bt_xml: $(find-pkg-share nav_bringup)/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
-    default_nav_through_poses_bt_xml: $(find-pkg-share nav_bringup)/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml
+    odom_topic: /Odometry
+    bt_loop_duration: 5
+    default_server_timeout: 10
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
-      - nav2_smooth_path_action_bt_node
       - nav2_follow_path_action_bt_node
+      - nav2_back_up_action_bt_node
       - nav2_spin_action_bt_node
       - nav2_wait_action_bt_node
-      - nav2_assisted_teleop_action_bt_node
-      - nav2_back_up_action_bt_node
-      - nav2_drive_on_heading_bt_node
       - nav2_clear_costmap_service_bt_node
       - nav2_is_stuck_condition_bt_node
       - nav2_goal_reached_condition_bt_node
       - nav2_goal_updated_condition_bt_node
-      - nav2_globally_updated_goal_condition_bt_node
-      - nav2_is_path_valid_condition_bt_node
       - nav2_initial_pose_received_condition_bt_node
       - nav2_reinitialize_global_localization_service_bt_node
       - nav2_rate_controller_bt_node
       - nav2_distance_controller_bt_node
       - nav2_speed_controller_bt_node
       - nav2_truncate_path_action_bt_node
-      - nav2_truncate_path_local_action_bt_node
       - nav2_goal_updater_node_bt_node
       - nav2_recovery_node_bt_node
       - nav2_pipeline_sequence_bt_node
       - nav2_round_robin_node_bt_node
       - nav2_transform_available_condition_bt_node
       - nav2_time_expired_condition_bt_node
-      - nav2_path_expiring_timer_condition
       - nav2_distance_traveled_condition_bt_node
       - nav2_single_trigger_bt_node
-      - nav2_goal_updated_controller_bt_node
       - nav2_is_battery_low_condition_bt_node
       - nav2_navigate_through_poses_action_bt_node
       - nav2_navigate_to_pose_action_bt_node
@@ -49,14 +38,6 @@ bt_navigator:
       - nav2_planner_selector_bt_node
       - nav2_controller_selector_bt_node
       - nav2_goal_checker_selector_bt_node
-      - nav2_controller_cancel_bt_node
-      - nav2_path_longer_on_approach_bt_node
-      - nav2_wait_cancel_bt_node
-      - nav2_spin_cancel_bt_node
-      - nav2_back_up_cancel_bt_node
-      - nav2_assisted_teleop_cancel_bt_node
-      - nav2_drive_on_heading_cancel_bt_node
-      - nav2_is_battery_charging_condition_bt_node
 
 controller_server:
   ros__parameters:
@@ -83,7 +64,7 @@ controller_server:
       time_steps: 56  #是指在每个控制周期内，控制器将生成的轨迹点数。
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
-      vx_std: 0.3 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vx_std: 0.2 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
       vy_std: 0.3
       wz_std: 0.25
       vx_max: 2.0 #控制器的线速度最大值。

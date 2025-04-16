@@ -14,5 +14,5 @@ ament_auto_package(
   INSTALL_TO_SHARE
   launch
   map
-  params rviz urdf
+  params rviz urdf behavior_trees
 )
