@@ -5,7 +5,7 @@ options = {
   map_builder = MAP_BUILDER,
   trajectory_builder = TRAJECTORY_BUILDER,
   map_frame = "map",
-  tracking_frame = "chassis",
+  tracking_frame = "base_link",
   -- base_link改为odom,发布map到odom之间的位姿态
   published_frame = "odom",
   odom_frame = "odom",
@@ -38,7 +38,6 @@ options = {
 
 -- false改为true，启动2D SLAM
 MAP_BUILDER.use_trajectory_builder_2d = true
-
 -- 0改成0.10,比机器人半径小的都忽略
 TRAJECTORY_BUILDER_2D.min_range = 0.5
 -- 30改成3.5,限制在雷达最大扫描范围内，越小一般越精确些

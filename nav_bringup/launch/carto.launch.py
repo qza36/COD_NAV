@@ -12,13 +12,15 @@ def generate_launch_description():
     livox_driver_dir = get_package_share_directory('livox_ros_driver2')
     bringup_dir = get_package_share_directory('nav_bringup')
     config_dir = os.path.join(bringup_dir, 'params')
-    config_basename = 'carto.config.lua'
+    config_basename = 'carto.localization.lua'
     resolution = '0.05'
     publish_period_sec = '0.5'
 
+    cartographer_map = os.path.join(bringup_dir,'map', 'cartographer_map.pbstream')
+
     # 配置文件路径
     robot_description = Command(['xacro ', os.path.join(
-        get_package_share_directory('nav_bringup'), 'urdf', 'simulation_waking_robot.xacro')])
+        get_package_share_directory('nav_bringup'), 'urdf', 'carto.xacro')])
 
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
@@ -44,7 +46,7 @@ def generate_launch_description():
                 executable='static_transform_publisher',
                 name='tf_static_publisher',
                 output='screen',
-                arguments=['--frame-id', 'odom', '--child-frame-id', 'chassis',]
+                arguments=['--frame-id', 'odom', '--child-frame-id', 'base_link',]
             ),
             Node(
                 package='cartographer_ros',
@@ -54,26 +56,27 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time}],
                 arguments=[
                     '-configuration_directory', config_dir,
-                    '-configuration_basename', config_basename
+                    '-configuration_basename', config_basename,
+                    '-load_state_filename', cartographer_map
                 ]
             ),
-            Node(
-                package='cartographer_ros',
-                executable='cartographer_occupancy_grid_node',
-                name='cartographer_occupancy_grid_node',
-                output='screen',
-                parameters=[{'use_sim_time': use_sim_time}],
-                arguments=[
-                    '-resolution', resolution,
-                    '-publish_period_sec', publish_period_sec
-                ]
-            ),
+            # Node(
+            #     package='cartographer_ros',
+            #     executable='cartographer_occupancy_grid_node',
+            #     name='cartographer_occupancy_grid_node',
+            #     output='screen',
+            #     parameters=[{'use_sim_time': use_sim_time}],
+            #     arguments=[
+            #         '-resolution', resolution,
+            #         '-publish_period_sec', publish_period_sec
+            #     ]
+            # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
                 remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
                             ('scan', '/scan')],
                 parameters=[{
-                    'target_frame': 'chassis',
+                    'target_frame': 'base_link',
                     'transform_tolerance': 0.01,
                     'min_height': 0.2,
                     'max_height': 1.00,
