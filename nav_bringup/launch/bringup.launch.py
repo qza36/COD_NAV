@@ -32,14 +32,19 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
+            # Node(
+            #     package='robot_state_publisher',
+            #     executable='robot_state_publisher',
+            #     name='robot_state_publisher',
+            #     parameters=[{
+            #         'robot_description': robot_description
+            #     }],
+            #     output='screen'
+            # ),
             Node(
-                package='robot_state_publisher',
-                executable='robot_state_publisher',
-                name='robot_state_publisher',
-                parameters=[{
-                    'robot_description': robot_description
-                }],
-                output='screen'
+                package='tf2_ros',
+                executable='static_transform_publisher',
+                arguments=['--z', '0.6', '--frame-id', 'chassis', '--child-frame-id', 'livox_frame',]
             ),
             # IncludeLaunchDescription(
             #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
@@ -98,7 +103,6 @@ def generate_launch_description():
             ),
             # IncludeLaunchDescription(
             #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
             # )
         ]
     )
