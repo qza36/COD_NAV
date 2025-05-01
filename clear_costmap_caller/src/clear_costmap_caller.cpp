@@ -14,8 +14,8 @@ public:
     // 创建全局和局部成本地图服务客户端
     global_client_ = this->create_client<nav2_msgs::srv::ClearEntireCostmap>(
       "/global_costmap/clear_entirely_global_costmap");
-    local_client_ = this->create_client<nav2_msgs::srv::ClearEntireCostmap>(
-      "/local_costmap/clear_entirely_local_costmap");
+    //local_client_ = this->create_client<nav2_msgs::srv::ClearEntireCostmap>(
+      //"/local_costmap/clear_entirely_local_costmap");
 
     //RCLCPP_INFO(this->get_logger(), "Waiting for services to become available...");
 
@@ -26,8 +26,8 @@ public:
 
     //RCLCPP_INFO(this->get_logger(), "Services available, starting timer.");
 
-    // 创建定时器，每0.5秒调用一次服务
-    timer_ = this->create_wall_timer(2000ms, std::bind(&ClearCostmapCaller::call_services, this));
+
+    timer_ = this->create_wall_timer(1000ms, std::bind(&ClearCostmapCaller::call_services, this));
   }
 
 private:

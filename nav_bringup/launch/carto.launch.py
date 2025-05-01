@@ -48,18 +48,24 @@ def generate_launch_description():
                 output='screen',
                 arguments=['--frame-id', 'odom', '--child-frame-id', 'base_link',]
             ),
-            Node(
-                package='cartographer_ros',
-                executable='cartographer_node',
-                name='cartographer_node',
-                output='screen',
-                parameters=[{'use_sim_time': use_sim_time}],
-                arguments=[
-                    '-configuration_directory', config_dir,
-                    '-configuration_basename', config_basename,
-                    '-load_state_filename', cartographer_map
-                ]
-            ),
+            # Node(
+            #     package='tf2_ros',
+            #     executable='static_transform_publisher',
+            #     name='tf_static_publisher1',
+            #     output='screen',
+            #     arguments=['--frame-id', 'base_footprint', '--child-frame-id', 'base_link',]
+            # ),
+            # Node(
+            #     package='cartographer_ros',
+            #     executable='cartographer_node',
+            #     name='cartographer_node',
+            #     output='screen',
+            #     parameters=[{'use_sim_time': use_sim_time}],
+            #     arguments=[
+            #         '-configuration_directory', config_dir,
+            #         '-configuration_basename', config_basename,
+            #     ]
+            # ),
             # Node(
             #     package='cartographer_ros',
             #     executable='cartographer_occupancy_grid_node',
@@ -85,16 +91,11 @@ def generate_launch_description():
                     'angle_increment': 0.0087,  # M_PI/360.0
                     'scan_time': 0.3333,
                     'range_min': 0.05,
-                    'range_max': 5.0,
+                    'range_max': 10.0,
                     'use_inf': True,
                     'inf_epsilon': 1.0
                 }],
                 name='pointcloud_to_laserscan'
-            ),
-            Node(
-                package= 'cod_serial',
-                executable= 'cod_serial',
-                output= 'screen'
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),

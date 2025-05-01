@@ -13,15 +13,8 @@ def generate_launch_description():
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
     livox_driver_dir = get_package_share_directory('livox_ros_driver2')
     bring_up_dir = get_package_share_directory('nav_bringup')
-
-    # 配置文件路径
-    robot_description = Command(['xacro ', os.path.join(
-        get_package_share_directory('nav_bringup'), 'urdf', 'simulation_waking_robot.xacro')])
-
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
-    localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
-
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', default_value='false',
@@ -33,18 +26,10 @@ def generate_launch_description():
     load_nodes = GroupAction(
         actions=[
             Node(
-                package='robot_state_publisher',
-                executable='robot_state_publisher',
-                name='robot_state_publisher',
-                parameters=[{
-                    'robot_description': robot_description
-                }],
-                output='screen'
+                package='tf2_ros',
+                executable='static_transform_publisher',
+                arguments=['--z', '0.6', '--frame-id', 'chassis', '--child-frame-id', 'livox_frame',]
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time}.items()
-            # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
                 remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
@@ -78,11 +63,11 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
-            # Node(
-            #     package='clear_costmap_caller',
-            #     executable='clear_costmap_caller',
-            #     output='screen'
-            # ),
+            Node(
+                package='clear_costmap_caller',
+                executable='clear_costmap_caller',
+                output='screen'
+            ),
              Node(
                  package= 'cod_serial',
                  executable= 'cod_serial',
@@ -96,10 +81,11 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
-            # )
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bringup.launch.py']),
+                launch_arguments={'use_sim_time':use_sim_time}.items()
+            )
+
         ]
     )
 
