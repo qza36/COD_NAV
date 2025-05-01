@@ -259,7 +259,7 @@ map_server:
     use_sim_time: False
     # Overridden in launch by the "map" launch configuration or provided default value.
     # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
-    yaml_filename: "/home/cod-sentry/qza_ws/cod_nav"
+    yaml_filename: "/home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bring/map/map.yaml"
 
 map_saver:
   ros__parameters:

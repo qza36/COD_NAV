@@ -13,15 +13,8 @@ def generate_launch_description():
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
     livox_driver_dir = get_package_share_directory('livox_ros_driver2')
     bring_up_dir = get_package_share_directory('nav_bringup')
-
-    # 配置文件路径
-    robot_description = Command(['xacro ', os.path.join(
-        get_package_share_directory('nav_bringup'), 'urdf', 'simulation_waking_robot.xacro')])
-
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
-    localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
-
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', default_value='false',
@@ -88,6 +81,11 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bringup.launch.py']),
+                launch_arguments={'use_sim_time':use_sim_time}.items()
+            )
+
         ]
     )
 
