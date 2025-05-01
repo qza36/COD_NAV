@@ -32,24 +32,11 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
-            # Node(
-            #     package='robot_state_publisher',
-            #     executable='robot_state_publisher',
-            #     name='robot_state_publisher',
-            #     parameters=[{
-            #         'robot_description': robot_description
-            #     }],
-            #     output='screen'
-            # ),
             Node(
                 package='tf2_ros',
                 executable='static_transform_publisher',
                 arguments=['--z', '0.6', '--frame-id', 'chassis', '--child-frame-id', 'livox_frame',]
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time}.items()
-            # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
                 remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
@@ -101,9 +88,6 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
                 launch_arguments={'use_sim_time': use_sim_time}.items()
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
-            # )
         ]
     )
 

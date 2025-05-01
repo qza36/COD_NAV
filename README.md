@@ -1,3 +1,4 @@
+![cod_logo](resource/cod-1.png)
 # RoboMaster2025辽宁科技大学COD战队哨兵机器人上位机导航系统
 ## 项目简介
 
@@ -9,6 +10,22 @@
 - 采用 fastlio-v2 作为 LIO（激光惯导里程计），并根据需求配置 NDT、ICP 点云配准算法
 - 局部路径规划器选用 MPPI
 
+### 目录结构
+```
+.
+├── clear_costmap_caller    #定时清除成本地图
+├── fake_vel_transform      #对云台自旋作解算，发布chassis_fake作为速度参考系
+├── FAST_LIO                #fastlio-v2,魔改tf，发布odom->chassis
+├── LICENSE                 #开源协议
+├── lidar_localization_ros2 #定位包
+├── nav_bringup             #启动包
+├── ndt_omp_ros2            #ndt依赖
+├── patchwork-plusplus      #点云分割，有效分割地面与非地面
+├── pointcloud_to_laserscan #pcl2laserscan，全局成本地图更新源
+├── README.md
+└── rm_simulation           #仿真模块
+
+```
 ## 使用说明
 ### 前置工作
 - 安装[Livox SDK2](https://github.com/Livox-SDK/Livox-SDK2)
@@ -31,6 +48,9 @@
 - 地图保存
   - 重定位所需的PCD地图，可由fastlio生成
   - 使用北理莫斯科北极熊战队的[pcd2pgm](https://github.com/LihanChen2004/pcd2pgm)项目将pcd转换成pgm珊格地图
+- 雷达位置修改
+  - FAST_LIO/livox_ros_driver2/src/config/MID360_config.json
+  - ``bringup.launch.py``提供的静态转换 
 ### 编译
 
 ```shell
