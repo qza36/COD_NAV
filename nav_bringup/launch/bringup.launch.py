@@ -83,11 +83,11 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
-            # Node(
-            #     package='clear_costmap_caller',
-            #     executable='clear_costmap_caller',
-            #     output='screen'
-            # ),
+            Node(
+                package='clear_costmap_caller',
+                executable='clear_costmap_caller',
+                output='screen'
+            ),
              Node(
                  package= 'cod_serial',
                  executable= 'cod_serial',

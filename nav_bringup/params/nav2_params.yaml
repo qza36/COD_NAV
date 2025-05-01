@@ -1,36 +1,47 @@
 bt_navigator:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: false
     global_frame: map
     robot_base_frame: chassis_fake
-    odom_topic: /Odometry
-    bt_loop_duration: 5
-    default_server_timeout: 10
+    odom_topic: Odometry
+    bt_loop_duration: 10
+    default_server_timeout: 100
+    wait_for_service_timeout: 1000
+    default_nav_to_pose_bt_xml: $(find-pkg-share nav_bringup)/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml
+    default_nav_through_poses_bt_xml: $(find-pkg-share nav_bringup)/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml
     plugin_lib_names:
       - nav2_compute_path_to_pose_action_bt_node
       - nav2_compute_path_through_poses_action_bt_node
+      - nav2_smooth_path_action_bt_node
       - nav2_follow_path_action_bt_node
-      - nav2_back_up_action_bt_node
       - nav2_spin_action_bt_node
       - nav2_wait_action_bt_node
+      - nav2_assisted_teleop_action_bt_node
+      - nav2_back_up_action_bt_node
+      - nav2_drive_on_heading_bt_node
       - nav2_clear_costmap_service_bt_node
       - nav2_is_stuck_condition_bt_node
       - nav2_goal_reached_condition_bt_node
       - nav2_goal_updated_condition_bt_node
+      - nav2_globally_updated_goal_condition_bt_node
+      - nav2_is_path_valid_condition_bt_node
       - nav2_initial_pose_received_condition_bt_node
       - nav2_reinitialize_global_localization_service_bt_node
       - nav2_rate_controller_bt_node
       - nav2_distance_controller_bt_node
       - nav2_speed_controller_bt_node
       - nav2_truncate_path_action_bt_node
+      - nav2_truncate_path_local_action_bt_node
       - nav2_goal_updater_node_bt_node
       - nav2_recovery_node_bt_node
       - nav2_pipeline_sequence_bt_node
       - nav2_round_robin_node_bt_node
       - nav2_transform_available_condition_bt_node
       - nav2_time_expired_condition_bt_node
+      - nav2_path_expiring_timer_condition
       - nav2_distance_traveled_condition_bt_node
       - nav2_single_trigger_bt_node
+      - nav2_goal_updated_controller_bt_node
       - nav2_is_battery_low_condition_bt_node
       - nav2_navigate_through_poses_action_bt_node
       - nav2_navigate_to_pose_action_bt_node
@@ -38,6 +49,14 @@ bt_navigator:
       - nav2_planner_selector_bt_node
       - nav2_controller_selector_bt_node
       - nav2_goal_checker_selector_bt_node
+      - nav2_controller_cancel_bt_node
+      - nav2_path_longer_on_approach_bt_node
+      - nav2_wait_cancel_bt_node
+      - nav2_spin_cancel_bt_node
+      - nav2_back_up_cancel_bt_node
+      - nav2_assisted_teleop_cancel_bt_node
+      - nav2_drive_on_heading_cancel_bt_node
+      - nav2_is_battery_charging_condition_bt_node
 
 controller_server:
   ros__parameters:
@@ -171,15 +190,15 @@ local_costmap:
       robot_base_frame: chassis_fake
       use_sim_time: False
       rolling_window: true
-      width: 8
-      height: 8
+      width: 4
+      height: 4
       resolution: 0.05
-      robot_radius: 0.3
+      robot_radius: 0.2
       plugins: ["obstacle_layer","inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 0.3
+        inflation_radius: 0.5
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
@@ -208,7 +227,7 @@ global_costmap:
       global_frame: map
       robot_base_frame: chassis_fake
       use_sim_time: False
-      robot_radius: 0.25
+      robot_radius: 0.2
       resolution: 0.04
       track_unknown_space: true
       plugins: ["static_layer","obstacle_layer","inflation_layer"]
@@ -232,7 +251,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 0.3
+        inflation_radius: 0.8
       always_send_full_costmap: True
 
 map_server:
