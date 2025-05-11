@@ -3,5 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/patchwork-plusplus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pb_nav2_plugins" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pb_omni_pid_pursuit_controller" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/terrain_analysis" vcs="Git" />
   </component>
 </project>
