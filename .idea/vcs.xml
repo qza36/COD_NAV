@@ -2,9 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FASTLIO2_ROS2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/patchwork-plusplus" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pb_nav2_plugins" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/pb_omni_pid_pursuit_controller" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/terrain_analysis" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spark-fast-lio" vcs="Git" />
   </component>
 </project>

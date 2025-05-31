@@ -1,4 +1,4 @@
-/home/cod-sentry/qza_ws/clion-2024.3.5/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/cod-sentry/qza_ws/clion-2024.3.5/bin/ninja/linux/x64/ninja -G Ninja -S /home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bringup -B /home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bringup/cmake-build-debug
+/home/cod-sentry/qza_ws/clion-2024.3.5/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/cod-sentry/qza_ws/clion-2024.3.5/bin/ninja/linux/x64/ninja -G Ninja -DPython_EXECUTABLE=/usr/bin/python3.10 -DPython3_EXECUTABLE=/usr/bin/python3.10 -S /home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bringup -B /home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bringup/cmake-build-debug
 CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
   Compatibility with CMake < 3.10 will be removed from a future version of
   CMake.
@@ -21,7 +21,7 @@ CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Found ament_cmake_auto: 1.3.11 (/opt/ros/humble/share/ament_cmake_auto/cmake)
--- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter
 -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
 -- Added test 'cppcheck' to perform static code analysis on C / C++ code
 -- Configured cppcheck include dirs: 
@@ -34,6 +34,12 @@ CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
 -- Added test 'uncrustify' to check C / C++ code style
 -- Configured uncrustify additional arguments: 
 -- Added test 'xmllint' to check XML markup files
--- Configuring done (0.7s)
+-- Configuring done (0.8s)
 -- Generating done (0.0s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    Python_EXECUTABLE
+
+
 -- Build files have been written to: /home/cod-sentry/qza_ws/cod_nav/src/cod_nav/nav_bringup/cmake-build-debug

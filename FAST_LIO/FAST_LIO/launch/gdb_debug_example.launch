@@ -4,6 +4,7 @@
 
   <node pkg="fast_lio" type="fastlio_mapping" name="laserMapping" output="screen" required="true" launch-prefix="gdb -ex run --args">
 	<param name="imu_topic" type="string" value="/livox/imu" />
+	<param name="lidar_topic" type="string" value="/livox/lidar">
 	<param name="map_file_path" type="string" value=" " />
 	<param name="max_iteration" type="int" value="4" />
 	<param name="dense_map_enable" type="bool" value="1" />

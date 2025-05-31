@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-e0bb7adf194e0ce1def8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "small_gicp_relocalization",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "small_gicp_relocalization::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-small_gicp_relocalization-Debug-8ada8f34cd2af8970560.json",
+					"name" : "small_gicp_relocalization",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "small_gicp_relocalization_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-small_gicp_relocalization_node-Debug-545c66225d0b8a22b1d1.json",
+					"name" : "small_gicp_relocalization_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "small_gicp_relocalization_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-small_gicp_relocalization_uninstall-Debug-22eb6539abaf61867eb6.json",
+					"name" : "small_gicp_relocalization_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Debug-939736dde47d75af73f4.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/cod-sentry/qza_ws/cod_nav/src/cod_nav/small_gicp_relocalization/cmake-build-debug",
+		"source" : "/home/cod-sentry/qza_ws/cod_nav/src/cod_nav/small_gicp_relocalization"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

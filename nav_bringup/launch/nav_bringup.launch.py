@@ -114,7 +114,7 @@ def generate_launch_description():
         description='Automatically startup the nav2 stack')
 
     declare_use_composition_cmd = DeclareLaunchArgument(
-        'use_composition', default_value='True',
+        'use_composition', default_value='False',
         description='Whether to use composed bringup')
 
     declare_use_respawn_cmd = DeclareLaunchArgument(
@@ -140,15 +140,6 @@ def generate_launch_description():
             arguments=['--ros-args', '--log-level', log_level],
             remappings=remappings,
             output='screen'),
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
-            condition=IfCondition(slam),
-            launch_arguments={'namespace': namespace,
-                              'use_sim_time': use_sim_time,
-                              'autostart': autostart,
-                              'use_respawn': use_respawn,
-                              'params_file': params_file}.items()),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir,
