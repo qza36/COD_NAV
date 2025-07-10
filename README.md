@@ -41,7 +41,7 @@
 - 安装依赖
   ```shell
   mkdir ~/cod_ws/src
-  git clone --rescures https://github.com/qza36/COD_NAV.git ~/cod_ws/src
+  git clone --recurse https://github.com/qza36/COD_NAV.git ~/cod_ws/src
   cd ~/cod_ws
   rosdep install --from-paths src --ignore-src -r -y
   ```
