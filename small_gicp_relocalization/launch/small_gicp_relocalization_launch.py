@@ -42,8 +42,8 @@ def generate_launch_description():
                 "odom_frame": "odom",
                 "base_frame": "chassis",
                 "lidar_frame": "chassis",
-                "prior_pcd_file": "/home/cod-sentry/qza_ws/cod_nav/PCD/rmuc.pcd", #blue
-                #"prior_pcd_file": "/home/cod-sentry/qza_ws/cod_nav/PCD/sim_test.pcd" #red
+                #"prior_pcd_file": "/home/cod-sentry/qza_ws/cod_nav/nav_bringup/map/sim_test.pcd", #blue
+                "prior_pcd_file": "/home/cod-sentry/qza_ws/cod_nav/PCD/sim_test.pcd" #red
             }
         ],
     )
