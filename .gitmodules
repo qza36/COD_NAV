@@ -1,3 +1,12 @@
 [submodule "patchwork-plusplus"]
     path = patchwork-plusplus
     url = https://github.com/url-kaist/patchwork-plusplus.git
+[submodule "pcd2pgm"]
+    path = pcd2pgm
+    url = https://github.com/LihanChen2004/pcd2pgm.git
+[submodule "pb_omni_pid_pursuit_controller"]
+    path = pb_omni_pid_pursuit_controller
+    url = https://github.com/qza36/pb_omni_pid_pursuit_controller.git
+[submodule "pb_nav2_plugins"]
+    path = pb_nav2_plugins
+    url =  https://github.com/SMBU-PolarBear-Robotics-Team/pb_nav2_plugins.git

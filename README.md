@@ -63,7 +63,7 @@ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMM
 ### 运行
 
 ```shell
-lidar_mapping.sh  #建图
+/lidar_mapping.sh  #建图
 pcd2pgm.sh        #pcd2pgm
 bringup.sh        #启动导航
 ```
