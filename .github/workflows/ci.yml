@@ -19,6 +19,15 @@ jobs:
           cd build
           cmake .. && make -j
           sudo make install
+      - name: Install small_gicp
+        run: |
+          git clone https://github.com/koide3/small_gicp.git
+          sudo apt install -y libeigen3-dev libomp-dev
+          cd small_gicp
+          mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
+          sudo make install
+
       - name: Checkout
         uses: actions/checkout@v4.2.2
 
