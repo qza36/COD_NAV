@@ -70,12 +70,6 @@ bringup.sh        #启动导航
 
 ### 实用工具
 
-- 保存PCD地图
-
-  ```shell
-  ros2 service call /map_save std_srvs/srv/Trigger
-  ```
-
 - 小键盘控制机器人
 
   ```shell
@@ -83,21 +77,6 @@ bringup.sh        #启动导航
   ```
 ### 配置说明
 - 参数模板：`nav_bringup/params/nav2_params.yaml` 
-- 可调项示例：  
-  - LIO 与地图匹配（NDT/ICP）参数  
+- 可调项示例：
   - MPPI 局部规划器超参数  
-  - 全局/局部成本地图分辨率  
-### SLAM 相关（dev）
-
-- 若需使用 SLAM 进行导航，先启动 `test.launch.py`（包含 mapserver），随后启动 `sim_slam.launch.py`（集成 Nav2 导航组件）
-- 当前在仿真过程中，频繁出现如下警告：
-  
-  ```
-  Message Filter dropping message: frame 'odom' at time 310.388 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
-  ```
-- 初步怀疑为 fast_lio 仿真问题，实际机器人尚待测试。
-- 地图保存方式如下（参数配置可见 [nav2_params.yaml](nav_bringup/params/nav2_params.yaml)）：
-
-  ```shell
-  ros2 run nav2_map_server map_saver_cli -f MAP_NAME
-  ```
+  - 全局/局部成本地图分辨率
