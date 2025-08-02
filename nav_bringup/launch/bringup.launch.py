@@ -13,8 +13,16 @@ def generate_launch_description():
     lidar_localization_dir = get_package_share_directory('lidar_localization_ros2')
     livox_driver_dir = get_package_share_directory('livox_ros_driver2')
     bring_up_dir = get_package_share_directory('nav_bringup')
+    patchworkpp_dir = get_package_share_directory('patchworkpp')
+    small_gicp_dir = get_package_share_directory('small_gicp_relocalization')
+    # 配置文件路径
+    robot_description = Command(['xacro ', os.path.join(
+        get_package_share_directory('nav_bringup'), 'urdf', 'simulation_waking_robot.xacro')])
+
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
     fast_lio_config_file = 'mid360.yaml'
+    localization_param_dir = os.path.join(lidar_localization_dir, 'param', 'localization.yaml')
+
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', default_value='false',
@@ -25,26 +33,49 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
+            # Node(
+            #     package='robot_state_publisher',
+            #     executable='robot_state_publisher',
+            #     name='robot_state_publisher',
+            #     parameters=[{
+            #         'robot_description': robot_description
+            #     }],
+            #     output='screen'
+            # ),
+
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
+            #     launch_arguments={'use_sim_time': use_sim_time}.items()
+            # ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
+                launch_arguments={'use_sim_time': use_sim_time}.items()
+            ),
             Node(
-                package='tf2_ros',
-                executable='static_transform_publisher',
-                arguments=['--z', '0.6', '--frame-id', 'chassis', '--child-frame-id', 'livox_frame',]
+                package='fast_lio',
+                executable='fastlio_mapping',
+                parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
+                            {'use_sim_time': use_sim_time}],
+                output='screen'
+            ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([patchworkpp_dir,'/launch/patchworkpp.launch.py']),
             ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-                remappings=[('cloud_in',  '/livox/lidar/pointcloud'),
+                remappings=[('cloud_in',  '/patchworkpp/nonground'),
                             ('scan', '/scan')],
                 parameters=[{
                     'target_frame': 'chassis',
-                    'transform_tolerance': 0.01,
-                    'min_height': 0.2,
+                    'transform_tolerance': 0.5,
+                    'min_height': 0.01,
                     'max_height': 1.00,
                     'angle_min': -3.1416,  # -M_PI/2
                     'angle_max': 3.1416,  # M_PI/2
                     'angle_increment': 0.0087,  # M_PI/360.0
                     'scan_time': 0.3333,
-                    'range_min': 0.05,
-                    'range_max': 5.0,
+                    'range_min': 0.48,
+                    'range_max': 20.0,
                     'use_inf': True,
                     'inf_epsilon': 1.0
                 }],
@@ -56,36 +87,31 @@ def generate_launch_description():
                 output="screen",
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
-            Node(
-                package='fast_lio',
-                executable='fastlio_mapping',
-                parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
-                            {'use_sim_time': use_sim_time}],
-                output='screen'
-            ),
-            Node(
-                package='clear_costmap_caller',
-                executable='clear_costmap_caller',
-                output='screen'
-            ),
+            # Node(
+            #     package='clear_costmap_caller',
+            #     executable='clear_costmap_caller',
+            #     output='screen'
+            # ),
              Node(
                  package= 'cod_serial',
                  executable= 'cod_serial',
                  output= 'screen'
              ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
-                launch_arguments={'use_sim_time': use_sim_time}.items()
-            ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
-                launch_arguments={'use_sim_time': use_sim_time}.items()
-            ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bringup.launch.py']),
-                launch_arguments={'use_sim_time':use_sim_time}.items()
-            )
 
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource([lidar_localization_dir, '/launch/lidar_localization.launch.py']),
+            #     launch_arguments={'use_sim_time': use_sim_time}.items()
+            # ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([small_gicp_dir, '/launch/small_gicp_relocalization_launch.py']),
+                launch_arguments={'use_sim_time': use_sim_time}.items()
+            ),
+
+            Node(
+                package='tf2_ros',
+                executable='static_transform_publisher',
+                arguments=['--z', '0.5', '--frame-id', 'chassis', '--child-frame-id', 'livox_frame',]
+            ),
         ]
     )
 

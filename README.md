@@ -13,11 +13,14 @@
 ### 目录结构
 ```
 .
-├── clear_costmap_caller    #定时清除成本地图
+├── clear_costmap_caller    #定时清除成本地图 //没有启用
 ├── fake_vel_transform      #对云台自旋作解算，发布chassis_fake作为速度参考系
 ├── FAST_LIO                #fastlio-v2,魔改tf，发布odom->chassis
 ├── LICENSE                 #开源协议
-├── lidar_localization_ros2 #定位包
+├── lidar_localization_ros2 #定位包 //没有启用
+├── small_gicp_relocalization #small_gicp冲定位
+├── pb_omni_pid_pursuit_controller  #局部控制器
+├── pb_nav2_plugins         #自定义nav2插件
 ├── nav_bringup             #启动包
 ├── ndt_omp_ros2            #ndt依赖
 ├── patchwork-plusplus      #点云分割，有效分割地面与非地面
@@ -60,16 +63,12 @@ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMM
 ### 运行
 
 ```shell
-ros2 launch nav_bringup nav_bringup 
+/lidar_mapping.sh  #建图
+pcd2pgm.sh        #pcd2pgm
+bringup.sh        #启动导航
 ```
 
 ### 实用工具
-
-- 保存PCD地图
-
-  ```shell
-  ros2 service call /map_save std_srvs/srv/Trigger
-  ```
 
 - 小键盘控制机器人
 
@@ -78,21 +77,6 @@ ros2 launch nav_bringup nav_bringup
   ```
 ### 配置说明
 - 参数模板：`nav_bringup/params/nav2_params.yaml` 
-- 可调项示例：  
-  - LIO 与地图匹配（NDT/ICP）参数  
+- 可调项示例：
   - MPPI 局部规划器超参数  
-  - 全局/局部成本地图分辨率  
-### SLAM 相关（dev）
-
-- 若需使用 SLAM 进行导航，先启动 `test.launch.py`（包含 mapserver），随后启动 `sim_slam.launch.py`（集成 Nav2 导航组件）
-- 当前在仿真过程中，频繁出现如下警告：
-  
-  ```
-  Message Filter dropping message: frame 'odom' at time 310.388 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
-  ```
-- 初步怀疑为 fast_lio 仿真问题，实际机器人尚待测试。
-- 地图保存方式如下（参数配置可见 [nav2_params.yaml](nav_bringup/params/nav2_params.yaml)）：
-
-  ```shell
-  ros2 run nav2_map_server map_saver_cli -f MAP_NAME
-  ```
+  - 全局/局部成本地图分辨率

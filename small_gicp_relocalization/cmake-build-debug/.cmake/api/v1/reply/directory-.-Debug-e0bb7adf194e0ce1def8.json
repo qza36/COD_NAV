@@ -1,0 +1,600 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"rclcpp_components_register_node",
+			"ament_auto_package",
+			"ament_environment_hooks",
+			"_ament_cmake_export_libraries_register_environment_hook",
+			"ament_export_libraries",
+			"ament_index_register_resource",
+			"ament_cmake_environment_generate_package_run_dependencies_marker",
+			"include",
+			"ament_execute_extensions",
+			"ament_package",
+			"ament_cmake_environment_generate_parent_prefix_path_marker",
+			"ament_generate_package_environment",
+			"ament_index_register_package",
+			"_ament_package"
+		],
+		"files" : 
+		[
+			"/opt/ros/humble/share/rclcpp_components/cmake/rclcpp_components_register_node.cmake",
+			"CMakeLists.txt",
+			"/opt/ros/humble/share/ament_cmake_auto/cmake/ament_auto_package.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/ament_environment_hooks.cmake",
+			"/opt/ros/humble/share/ament_cmake_export_libraries/cmake/ament_cmake_export_libraries-extras.cmake",
+			"/opt/ros/humble/share/ament_cmake_export_libraries/cmake/ament_export_libraries.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/index/ament_index_register_resource.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/environment/ament_cmake_environment_package_hook.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/core/ament_execute_extensions.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/core/ament_package.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/ament_cmake_environment_hooks_package_hook.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/ament_generate_package_environment.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/index/ament_index_register_package.cmake",
+			"/opt/ros/humble/share/ament_cmake_core/cmake/index/ament_cmake_index_package_hook.cmake",
+			"/opt/ros/humble/share/rclcpp_components/cmake/rclcpp_components_package_hook.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 77,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 56,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 65,
+				"parent" : 3
+			},
+			{
+				"command" : 5,
+				"file" : 2,
+				"line" : 70,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 5,
+				"line" : 35,
+				"parent" : 5
+			},
+			{
+				"command" : 3,
+				"file" : 4,
+				"line" : 25,
+				"parent" : 6
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 70,
+				"parent" : 7
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 87,
+				"parent" : 7
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 71,
+				"parent" : 3
+			},
+			{
+				"command" : 0,
+				"file" : 2,
+				"line" : 94,
+				"parent" : 3
+			},
+			{
+				"command" : 10,
+				"file" : 2,
+				"line" : 102,
+				"parent" : 3
+			},
+			{
+				"command" : 9,
+				"file" : 9,
+				"line" : 66,
+				"parent" : 12
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 13
+			},
+			{
+				"file" : 7,
+				"parent" : 14
+			},
+			{
+				"command" : 7,
+				"file" : 7,
+				"line" : 47,
+				"parent" : 15
+			},
+			{
+				"command" : 6,
+				"file" : 7,
+				"line" : 29,
+				"parent" : 16
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 17
+			},
+			{
+				"command" : 11,
+				"file" : 7,
+				"line" : 48,
+				"parent" : 15
+			},
+			{
+				"command" : 6,
+				"file" : 7,
+				"line" : 43,
+				"parent" : 19
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 20
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 13
+			},
+			{
+				"file" : 10,
+				"parent" : 22
+			},
+			{
+				"command" : 3,
+				"file" : 10,
+				"line" : 20,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 70,
+				"parent" : 24
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 87,
+				"parent" : 24
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 70,
+				"parent" : 24
+			},
+			{
+				"command" : 0,
+				"file" : 3,
+				"line" : 87,
+				"parent" : 24
+			},
+			{
+				"command" : 12,
+				"file" : 10,
+				"line" : 26,
+				"parent" : 23
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 29
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 29
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 91,
+				"parent" : 29
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 107,
+				"parent" : 29
+			},
+			{
+				"command" : 0,
+				"file" : 11,
+				"line" : 119,
+				"parent" : 29
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 13
+			},
+			{
+				"file" : 13,
+				"parent" : 35
+			},
+			{
+				"command" : 13,
+				"file" : 13,
+				"line" : 16,
+				"parent" : 36
+			},
+			{
+				"command" : 6,
+				"file" : 12,
+				"line" : 29,
+				"parent" : 37
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 38
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 48,
+				"parent" : 13
+			},
+			{
+				"file" : 14,
+				"parent" : 40
+			},
+			{
+				"command" : 6,
+				"file" : 14,
+				"line" : 18,
+				"parent" : 41
+			},
+			{
+				"command" : 0,
+				"file" : 6,
+				"line" : 105,
+				"parent" : 42
+			},
+			{
+				"command" : 14,
+				"file" : 9,
+				"line" : 68,
+				"parent" : 12
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 44
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 44
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 122,
+				"parent" : 44
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 150,
+				"parent" : 44
+			},
+			{
+				"command" : 0,
+				"file" : 9,
+				"line" : 157,
+				"parent" : 44
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/small_gicp_relocalization",
+			"paths" : 
+			[
+				"small_gicp_relocalization_node"
+			],
+			"targetId" : "small_gicp_relocalization_node::@6890427a1f51a3e7e1df",
+			"targetIndex" : 1,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"cxxModuleBmiTarget" : 
+			{
+				"id" : "small_gicp_relocalization_node::@6890427a1f51a3e7e1df",
+				"index" : 1
+			},
+			"destination" : "lib/small_gicp_relocalization",
+			"type" : "cxxModuleBmi"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "include",
+			"paths" : 
+			[
+				{
+					"from" : "include",
+					"to" : "."
+				}
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 8,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"/opt/ros/humble/lib/python3.10/site-packages/ament_package/template/environment_hook/library_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 9,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/library_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 10,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"libsmall_gicp_relocalization.so"
+			],
+			"targetId" : "small_gicp_relocalization::@6890427a1f51a3e7e1df",
+			"targetIndex" : 0,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 11,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"launch"
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 18,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/package_run_dependencies",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/small_gicp_relocalization"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 21,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/parent_prefix_path",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_index/share/ament_index/resource_index/parent_prefix_path/small_gicp_relocalization"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 25,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/ament_prefix_path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 26,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/ament_prefix_path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 27,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"/opt/ros/humble/share/ament_cmake_core/cmake/environment_hooks/environment/path.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 28,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/environment",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/path.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 30,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/local_setup.bash"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 31,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/local_setup.sh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 32,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/local_setup.zsh"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 33,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/local_setup.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 34,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_environment_hooks/package.dsv"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 39,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/packages",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_index/share/ament_index/resource_index/packages/small_gicp_relocalization"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 43,
+			"component" : "Unspecified",
+			"destination" : "share/ament_index/resource_index/rclcpp_components",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_index/share/ament_index/resource_index/rclcpp_components/small_gicp_relocalization"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 45,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/cmake",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_export_dependencies/ament_cmake_export_dependencies-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 46,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/cmake",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_export_include_directories/ament_cmake_export_include_directories-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 47,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/cmake",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_export_libraries/ament_cmake_export_libraries-extras.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 48,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization/cmake",
+			"paths" : 
+			[
+				"cmake-build-debug/ament_cmake_core/small_gicp_relocalizationConfig.cmake",
+				"cmake-build-debug/ament_cmake_core/small_gicp_relocalizationConfig-version.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 49,
+			"component" : "Unspecified",
+			"destination" : "share/small_gicp_relocalization",
+			"paths" : 
+			[
+				"package.xml"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}

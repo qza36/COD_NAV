@@ -1,0 +1,4 @@
+ToolSet: 1.0 (local)Ninja: 1.12.1@/home/cod-sentry/qza_ws/clion-2024.3.5/bin/ninja/linux/x64/ninja
+Options: 
+
+Options:-DCMAKE_MAKE_PROGRAM=/home/cod-sentry/qza_ws/clion-2024.3.5/bin/ninja/linux/x64/ninja

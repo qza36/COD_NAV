@@ -17,8 +17,15 @@
         </RateController>
         <RecoveryNode name="FollowPath"
                       number_of_retries="10">
-          <FollowPath path="{path}"
-                      controller_id="FollowPath"/>
+          <ReactiveFallback name="FollowPathWithStuckDetection">
+            <FollowPath path="{path}"
+                        controller_id="FollowPath"/>
+            <Sequence name="StuckDetectionAndBackup">
+              <IsStuck/>
+              <BackUp backup_dist="1.0"
+                      backup_speed="1.5"/>
+            </Sequence>
+          </ReactiveFallback>
           <ClearEntireCostmap name="ClearLocalCostmap-Context"
                               service_name="local_costmap/clear_entirely_local_costmap"/>
         </RecoveryNode>
@@ -38,4 +45,45 @@
       </ReactiveFallback>
     </RecoveryNode>
   </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="BackUp"
+            editable="true">
+      <input_port name="backup_dist"/>
+      <input_port name="backup_speed"/>
+    </Action>
+    <Action ID="ClearEntireCostmap"
+            editable="true">
+      <input_port name="service_name"/>
+    </Action>
+    <Action ID="ComputePathToPose"
+            editable="true">
+      <input_port name="goal"/>
+      <input_port name="path"/>
+      <input_port name="planner_id"/>
+    </Action>
+    <Action ID="FollowPath"
+            editable="true">
+      <input_port name="path"/>
+      <input_port name="controller_id"/>
+    </Action>
+    <Action ID="GoalUpdated"
+            editable="true"/>
+    <Action ID="IsStuck"
+            editable="true"/>
+    <Control ID="PipelineSequence"
+             editable="true"/>
+    <Decorator ID="RateController"
+               editable="true">
+      <input_port name="hz"/>
+    </Decorator>
+    <Control ID="RecoveryNode"
+             editable="true">
+      <input_port name="number_of_retries"/>
+    </Control>
+    <Control ID="RoundRobin"
+             editable="true"/>
+  </TreeNodesModel>
+
 </root>
