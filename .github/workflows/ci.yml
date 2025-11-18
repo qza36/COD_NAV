@@ -1,7 +1,7 @@
 name: Build
 on:
   push:
-    branches: [ master ]
+    branches: [ rmul2026 ]
   pull_request:
     branches: [ master ]
 
