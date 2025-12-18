@@ -2,7 +2,7 @@ bt_navigator:
   ros__parameters:
     use_sim_time: false
     global_frame: map
-    robot_base_frame: chassis_fake
+    robot_base_frame: base_link_fake
     odom_topic: Odometry
     bt_loop_duration: 10
     default_server_timeout: 100
@@ -284,7 +284,7 @@ local_costmap:
       update_frequency: 10.0
       publish_frequency: 5.0
       global_frame: map
-      robot_base_frame: chassis_fake
+      robot_base_frame: base_link_fake
       use_sim_time: False
       rolling_window: true
       width: 10
@@ -322,7 +322,7 @@ local_costmap:
         footprint_clearing_enabled: True
         observation_sources: scan
         scan:
-          topic: /patchworkpp/nonground
+          topic: /livox/lidar
           max_obstacle_height: 1.0
           clearing: True
           marking: True
@@ -343,27 +343,12 @@ global_costmap:
       update_frequency: 20.0
       publish_frequency: 20.0
       global_frame: map
-      robot_base_frame: chassis_fake
+      robot_base_frame: base_link_fake
       use_sim_time: False
       robot_radius: 0.15
       resolution: 0.04
       track_unknown_space: true
-      plugins: ["static_layer","obstacle_layer","inflation_layer"]
-      obstacle_layer:
-        plugin: "nav2_costmap_2d::ObstacleLayer"
-        enabled: True
-        footprint_clearing_enabled: True
-        observation_sources: scan
-        scan:
-          topic: /scan
-          max_obstacle_height: 1.5
-          clearing: True
-          marking: True
-          data_type: "LaserScan"
-          raytrace_max_range: 20.0
-          raytrace_min_range: 0.1
-          obstacle_max_range: 20.0
-          obstacle_min_range: 0.1
+      plugins: ["static_layer","inflation_layer"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -455,7 +440,7 @@ behavior_server:
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: map
-    robot_base_frame: chassis_fake
+    robot_base_frame: base_link_fake
     transform_tolerance: 0.1
     use_sim_time: false
     simulate_ahead_time: 1.0

@@ -10,7 +10,6 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     # 获取包的共享目录
     fastlio_dir = get_package_share_directory('fast_lio')
-    livox_driver_dir = get_package_share_directory('livox_ros_driver2')
     bring_up_dir = get_package_share_directory('nav_bringup')
 
 
@@ -18,7 +17,7 @@ def generate_launch_description():
     fast_lio_config_file = 'mid360.yaml'
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='true',
+        'use_sim_time', default_value='false',
         description='Use simulation (Gazebo) clock if true')
     declare_slam_params_file = DeclareLaunchArgument(
         'slam_params_file', default_value=os.path.join(bring_up_dir,'params','mapper_params_async.yaml')
@@ -47,7 +46,7 @@ def generate_launch_description():
             # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-                remappings=[('cloud_in',  '/red_standard_robot1/livox/lidar'),
+                remappings=[('cloud_in',  '/livox/lidar'),
                             ('scan', '/scan')],
                 parameters=[{
                     'target_frame': 'base_link',
@@ -116,7 +115,7 @@ def generate_launch_description():
                     "--frame-id",
                     "base_link",
                     "--child-frame-id",
-                    "front_mid360",
+                    "livox_frame",
                 ],
             ),
             Node(
@@ -130,7 +129,7 @@ def generate_launch_description():
                         "registered_scan_topic": "cloud_registered",
                         "odom_frame": "odom",
                         "base_frame": "base_link",
-                        "lidar_frame": "front_mid360",
+                        "lidar_frame": "livox_frame",
                     }
                 ],
             ),
@@ -139,7 +138,7 @@ def generate_launch_description():
                 executable="sensor_scan_generation_node",
                 output="screen",
                 parameters=[
-                    {"lidar_frame": "front_mid360"},
+                    {"lidar_frame": "livox_frame"},
                     {"base_frame": "base_link"},
                     {"robot_base_frame": "base_link"},
                 ],
@@ -153,7 +152,7 @@ def generate_launch_description():
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','navigation_launch.py')),
                 launch_arguments={
-                                  'use_sim_time': "true",
+                                  'use_sim_time': "false",
                                   'autostart': "true",
                                   'params_file': nav2_params_file,
                                   'use_composition': 'False',
