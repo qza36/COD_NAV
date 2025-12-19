@@ -14,6 +14,8 @@ def generate_launch_description():
 
 
     fastlio_config_path = os.path.join(fastlio_dir, 'config')
+    rviz_config_file = os.path.join(bring_up_dir, 'rviz', 'cod_nav.rviz')
+
     fast_lio_config_file = 'mid360.yaml'
     # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
@@ -97,28 +99,6 @@ def generate_launch_description():
                 ],
             ),
             Node(
-                package="tf2_ros",
-                executable="static_transform_publisher",
-                arguments=[
-                    "--x",
-                    "0.0",
-                    "--y",
-                    "0.0",
-                    "--z",
-                    "0.1",
-                    "--roll",
-                    "0.0",
-                    "--pitch",
-                    "0.0",
-                    "--yaw",
-                    "0.0",
-                    "--frame-id",
-                    "base_link",
-                    "--child-frame-id",
-                    "livox_frame",
-                ],
-            ),
-            Node(
                 package="loam_interface",
                 executable="loam_interface_node",
                 name="loam_interface",
@@ -158,6 +138,12 @@ def generate_launch_description():
                                   'use_composition': 'False',
                                   'use_respawn': 'False',
                                   'container_name': 'nav2_container'}.items()),
+            Node(
+                package='rviz2',
+                executable='rviz2',
+                arguments=['-d',rviz_config_file],
+                output='screen'
+            )
             # IncludeLaunchDescription(
             #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
             #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
