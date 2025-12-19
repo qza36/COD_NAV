@@ -27,6 +27,13 @@ jobs:
           mkdir build && cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release && make -j
           sudo make install
+      - name: Install Livox Driver
+        run: |
+          git clone https://github.com/qza36/livox_driver2_ros2.git
+          mkdir -p ws_livox/src
+          mv livox_driver2_ros2 ws_livox/src
+          cd ws_liovx/src/livox_driver2_ros2 && ./build.sh humble
+          source install/setup.sh
 
       - name: Checkout
         uses: actions/checkout@v4.2.2
