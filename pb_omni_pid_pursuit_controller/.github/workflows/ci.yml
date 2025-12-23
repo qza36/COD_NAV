@@ -1,0 +1,18 @@
+name: Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: rostooling/setup-ros-docker:ubuntu-jammy-ros-humble-desktop-latest
+    steps:
+      - name: Build pb_omni_pid_pursuit_controller
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          package-name: pb_omni_pid_pursuit_controller
+          target-ros2-distro: humble
