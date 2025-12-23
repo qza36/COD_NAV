@@ -42,10 +42,6 @@ def generate_launch_description():
                             {'use_sim_time': use_sim_time}],
                 output='screen'
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([livox_driver_dir, '/launch/msg_MID360_launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time}.items()
-            # ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
                 remappings=[('cloud_in',  '/livox/lidar'),
@@ -59,7 +55,7 @@ def generate_launch_description():
                     'angle_max': 3.1416,  # M_PI/2
                     'angle_increment': 0.0087,  # M_PI/360.0
                     'scan_time': 0.3333,
-                    'range_min': 0.48,
+                    'range_min': 0.5,
                     'range_max': 20.0,
                     'use_inf': True,
                     'inf_epsilon': 1.0
@@ -126,6 +122,12 @@ def generate_launch_description():
             Node(
                 package="fake_vel_transform",
                 executable="fake_vel_transform_node",
+                output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
+            ),
+            Node(
+                package="cod_serial_ul26",
+                executable="cod_serial",
                 output="screen",
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
