@@ -34,7 +34,21 @@ def generate_launch_description():
     # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
-
+            Node(
+                package='cpp_lidar_filter',
+                executable='lidar_filter_node',
+                name='my_lidar_filter',
+                output='screen',
+                parameters=[{
+                    'input_topic': '/livox/lidar',
+                    'output_topic': '/livox/lidar_filtered',
+                    'min_x': -0.4, 'max_x': 0.4,
+                    'min_y': -0.3, 'max_y': 0.3,
+                    'min_z': -0.1, 'max_z': 0.6,
+                    'negative': True,   # 挖掉车身
+                    'leaf_size': 0.05   # 降采样
+                }]
+            ),
             Node(
                 package='fast_lio',
                 executable='fastlio_mapping',
