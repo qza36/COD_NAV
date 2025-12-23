@@ -146,6 +146,15 @@ def generate_launch_description():
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
             IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(get_package_share_directory('realsense2_camera'),'launch','rs_launch.py')
+                ),
+                launch_arguments={
+                    'depth_module.depth_profile': '1280x720x30',
+                    'pointcloud.enable': 'true'
+                }.items()
+            ),
+            IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','navigation_launch.py')),
                 launch_arguments={
                                   'use_sim_time': "false",
@@ -153,13 +162,14 @@ def generate_launch_description():
                                   'params_file': nav2_params_file,
                                   'use_composition': 'False',
                                   'use_respawn': 'False',
-                                  'container_name': 'nav2_container'}.items()),
+                                  'container_name': 'nav2_container'}.items()
+            ),
             Node(
                 package='rviz2',
                 executable='rviz2',
                 arguments=['-d',rviz_config_file],
-                output='screen'
-            )
+                output='screen',
+            ),
             # IncludeLaunchDescription(
             #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
             #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()

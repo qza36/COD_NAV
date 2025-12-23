@@ -132,7 +132,7 @@ local_costmap:
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
-        voxel_decay: 0.1     #seconds if linear, e^n if exponential
+        voxel_decay: 0.2     #seconds if linear, e^n if exponential
         decay_model: 0      #0=linear, 1=exponential, 2=persistent
         voxel_size: 0.05   #meters
         track_unknown_space: true   #default space is unknown
@@ -147,10 +147,10 @@ local_costmap:
         transform_tolerance: 0.2    # seconds
         mapping_mode: false  # default off, saves map not for navigation
         map_save_duration: 60.0     #default 60s, how often to autosave
-        observation_sources: livox_source
+        observation_sources: livox_source realsense_source
         livox_source:
           data_type: PointCloud2
-          topic:  lidar_filtered
+          topic:  /livox/lidar_filtered
           transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
           marking: true
           clearing: true
@@ -166,6 +166,20 @@ local_costmap:
           vertical_fov_angle: 1.03      #default 0.7, radians
           vertical_fov_offset: 0.39
           horizontal_fov_angle: 6.28
+        realsense_source:
+          enabled: true                #default true, can be toggled on/off with associated service call
+          data_type: PointCloud2
+          topic: /camera/camera/depth/color/points
+          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
+          marking: true
+          clearing: true
+          min_z: 0.1                   #default 0, meters
+          max_z: 7.0                   #default 10, meters
+          vertical_fov_angle: 0.7      #default 0.7, radians
+          vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
+          horizontal_fov_angle: 1.04   #default 1.04, radians
+          decay_acceleration: 1.       #default 0, 1/s^2. If laser scanner MUST be 0
+          model_type: 0                #default 0 (depth camera). Use 1 for 3D Lidar
       always_send_full_costmap: True
 
 
@@ -194,7 +208,7 @@ global_costmap:
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
-        voxel_decay: 0.1     #seconds if linear, e^n if exponential
+        voxel_decay: 0.2     #seconds if linear, e^n if exponential
         decay_model: 0      #0=linear, 1=exponential, 2=persistent
         voxel_size: 0.05   #meters
         track_unknown_space: true   #default space is unknown
@@ -209,7 +223,7 @@ global_costmap:
         transform_tolerance: 0.2    # seconds
         mapping_mode: false  # default off, saves map not for navigation
         map_save_duration: 60.0     #default 60s, how often to autosave
-        observation_sources: livox_source
+        observation_sources: livox_source realsense_source
         livox_source:
           data_type: PointCloud2
           topic: /livox/lidar_filtered
@@ -228,6 +242,20 @@ global_costmap:
           vertical_fov_angle: 1.03      #default 0.7, radians
           vertical_fov_offset: 0.39
           horizontal_fov_angle: 6.28
+        realsense_source:
+          enabled: true                #default true, can be toggled on/off with associated service call
+          data_type: PointCloud2
+          topic: /camera/camera/depth/color/points
+          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
+          marking: true
+          clearing: true
+          min_z: 0.1                   #default 0, meters
+          max_z: 7.0                   #default 10, meters
+          vertical_fov_angle: 0.7      #default 0.7, radians
+          vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
+          horizontal_fov_angle: 1.04   #default 1.04, radians
+          decay_acceleration: 1.       #default 0, 1/s^2. If laser scanner MUST be 0
+          model_type: 0                #default 0 (depth camera). Use 1 for 3D Lidar
       always_send_full_costmap: True
 
 map_server:
