@@ -20,11 +20,6 @@
           <ReactiveFallback name="FollowPathWithStuckDetection">
             <FollowPath path="{path}"
                         controller_id="FollowPath"/>
-            <Sequence name="StuckDetectionAndBackup">
-              <IsStuck/>
-              <BackUp backup_dist="1.0"
-                      backup_speed="1.5"/>
-            </Sequence>
           </ReactiveFallback>
           <ClearEntireCostmap name="ClearLocalCostmap-Context"
                               service_name="local_costmap/clear_entirely_local_costmap"/>
@@ -39,8 +34,6 @@
             <ClearEntireCostmap name="ClearGlobalCostmap-Subtree"
                                 service_name="global_costmap/clear_entirely_global_costmap"/>
           </Sequence>
-          <BackUp backup_dist="1.0"
-                  backup_speed="1.0"/>
         </RoundRobin>
       </ReactiveFallback>
     </RecoveryNode>
@@ -48,11 +41,6 @@
 
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
-    <Action ID="BackUp"
-            editable="true">
-      <input_port name="backup_dist"/>
-      <input_port name="backup_speed"/>
-    </Action>
     <Action ID="ClearEntireCostmap"
             editable="true">
       <input_port name="service_name"/>
@@ -69,8 +57,6 @@
       <input_port name="controller_id"/>
     </Action>
     <Action ID="GoalUpdated"
-            editable="true"/>
-    <Action ID="IsStuck"
             editable="true"/>
     <Control ID="PipelineSequence"
              editable="true"/>

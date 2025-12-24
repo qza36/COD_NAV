@@ -59,19 +59,18 @@ bt_navigator:
       - nav2_is_battery_charging_condition_bt_node
 controller_server:
   ros__parameters:
-    use_sim_time: false
-    odom_topic: odometry
+    use_sim_time: False
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.5
+    min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
-    progress_checker_plugins: ["progress_checker"]
+    progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
     controller_plugins: ["FollowPath"]
     progress_checker:
       plugin: "nav2_controller::SimpleProgressChecker"
-      required_movement_radius: 0.5
+      required_movement_radius: 0.4
       movement_time_allowance: 10.0
     general_goal_checker:
       stateful: True
@@ -79,36 +78,98 @@ controller_server:
       xy_goal_tolerance: 0.15
       yaw_goal_tolerance: 6.28
     FollowPath:
-      plugin: "pb_omni_pid_pursuit_controller::OmniPidPursuitController"
-      translation_kp: 3.5
-      translation_ki: 0.45
-      translation_kd: 1.5
-      enable_rotation: false
-      rotation_kp: 3.0
-      rotation_ki: 0.5
-      rotation_kd: 0.3
-      transform_tolerance: 0.1
-      min_max_sum_error: 1.0
-      lookahead_dist: 0.5
-      use_velocity_scaled_lookahead_dist: true
-      lookahead_time: 1.0
-      min_lookahead_dist: 0.5
-      max_lookahead_dist: 1.0
-      use_interpolation: true
-      use_rotate_to_heading: false
-      use_rotate_to_heading_treshold: 0.1
-      min_approach_linear_velocity: 0.5
-      approach_velocity_scaling_dist: 1.0
-      v_linear_min: -2.0
-      v_linear_max: 2.0
-      v_angular_min: -3.0
-      v_angular_max: 3.0
-      curvature_min: 0.4                                # 低曲率阈值，低于此值不减速。
-      curvature_max: 0.5                                # 高曲率阈值，高于此值大幅减速。
-      reduction_ratio_at_high_curvature: 0.5            # 高曲率时的速度降低比例。 0.5 (即减速 50%)
-      curvature_forward_dist: 0.7                       # 前向距离，用于曲率计算
-      curvature_backward_dist: 0.3                      # 后向距离，用于曲率计算
-      max_velocity_scaling_factor_rate: 0.9             # 速度缩放因子的最大变化率
+      plugin: "nav2_mppi_controller::MPPIController"
+      time_steps: 56  #是指在每个控制周期内，控制器将生成的轨迹点数。
+      model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
+      batch_size: 2000 #控制器的采样数。
+      vx_std: 0.2 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vy_std: 0.2
+      wz_std: 0.2
+      vx_max: 10.0 #控制器的线速度最大值。
+      vx_min: -10.0 #控制器的线速度最小值。
+      vy_max: 10.0 #控制器的侧向速度最大值。
+      wz_max: 0.0 #控制器的角速度最大值。
+      ax_max: 10.0 #控制器的线加速度最大值。
+      ax_min: -10.0 #控制器的线加速度最小值。
+      ay_max: 10.0 #控制器的侧向加速度最大值。
+      ay_min: -10.0
+      az_max: 0.0 #控制器的角加速度最大值。
+      iteration_count: 2 #控制器的迭代次数。
+      prune_distance: 2.0 #控制器的轨迹剪枝距离。
+      transform_tolerance: 0.1 #控制器的变换容忍度, 用于判断是否需要重新计算轨迹，值越大，越容易重新计算。
+      temperature: 0.3 #控制器的温度。
+      gamma: 0.015 #控制器的 gamma 值,
+      motion_model: "Omni" #控制器的运动模型。
+      visualize: true #是否可视化。
+      reset_period: 0.1 # (only in Humble)
+      retry_attempt_limit: 2 #软重置的尝试次数
+      regenerate_noises: true
+      TrajectoryVisualizer:
+        trajectory_step: 5 #是指在可视化轨迹时，每隔多少个轨迹点绘制一个点。
+        time_step: 3 #是指在可视化轨迹时，每隔多少个时间步长绘制一个点。
+      critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic" , "ObstaclesCritic"]
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.4 # 考虑的阈值,和速度有关，值越大，速度越慢
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+      PreferForwardCritic:
+        enabled: false
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 0.5
+      ObstaclesCritic: #障碍物
+        enabled: false
+        cost_power: 1
+        repulsion_weight: 1.5
+        critical_weight: 10.0
+        consider_footprint: false
+        collision_cost: 10000.0
+        collision_margin_distance: 0.1
+        near_goal_distance: 0.5
+        inflation_radius: 0.55 # (only in Humble)
+        cost_scaling_factor: 10.0 # (only in Humble)
+      CostCritic: #代价，用于计算代价，代价越大，越不容易选择
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.81
+        critical_cost: 50.0 #临界代价
+        consider_footprint: true
+        collision_cost: 1000000.0 #碰撞代价
+        near_goal_distance: 0.1 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
+        trajectory_point_step: 2 #轨迹点步长
+      PathAlignCritic: #路径对齐
+        enabled: true
+        cost_power: 1
+        cost_weight: 10.0 # 代价权重
+        max_path_occupancy_ratio: 0.5
+        trajectory_point_step: 1 #轨迹点步长
+        threshold_to_consider: 0.5 # 考虑的阈值
+        offset_from_furthest: 20
+        use_path_orientations: false #是否使用路径方向
+      PathFollowCritic: #是否跟随路径
+        enabled: true
+        cost_power: 1
+        cost_weight: 50.0 # 代价权重
+        offset_from_furthest: 5 # 距离最远点的偏移量
+        threshold_to_consider: 0.4 # 考虑的阈值
+      PathAngleCritic: #路径角度
+        enabled: false
+        cost_power: 1
+        cost_weight: 2.0
+        offset_from_furthest: 4
+        threshold_to_consider: 0.2
+        max_angle_to_furthest: 1.0
+        mode: 0
 
 local_costmap:
   local_costmap:
@@ -123,11 +184,11 @@ local_costmap:
       height: 10
       resolution: 0.05
       robot_radius: 0.2
-      #footprint: "[ [0.41, 0.395], [0.41, -0.395], [-0.41, -0.395], [-0.41, 0.395] ]"
+      footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
       plugins: ["stvl_voxel_layer","inflation_layer"]
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 4.0
+        cost_scaling_factor: 8.0
         inflation_radius: 0.4
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
@@ -175,6 +236,7 @@ local_costmap:
           clearing: true
           min_z: 0.1                   #default 0, meters
           max_z: 7.0                   #default 10, meters
+          min_obstacle_height: 0.2     #default 0, meters
           vertical_fov_angle: 0.7      #default 0.7, radians
           vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
           horizontal_fov_angle: 1.04   #default 1.04, radians
@@ -194,7 +256,8 @@ global_costmap:
       robot_base_frame: base_link_fake
       rolling_window: true
       use_sim_time: False
-      #footprint: "[ [0.41, 0.395], [0.41, -0.395], [-0.41, -0.395], [-0.41, 0.395] ]"
+      robot_radius: 0.5
+      footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
       resolution: 0.04
       track_unknown_space: true
       plugins: ["static_layer","stvl_voxel_layer","inflation_layer"]
@@ -203,7 +266,7 @@ global_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 5.0
+        cost_scaling_factor: 8.0
         inflation_radius: 0.4
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
@@ -230,7 +293,7 @@ global_costmap:
           transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
           marking: true
           clearing: true
-          min_obstacle_height: 0.1     #default 0, meters
+          min_obstacle_height: 0.2     #default 0, meters
           max_obstacle_height: 2.0     #defaule 3, meters
           expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
@@ -249,8 +312,9 @@ global_costmap:
           transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
           marking: true
           clearing: true
-          min_z: 0.1                   #default 0, meters
+          min_z: 0.2                   #default 0, meters
           max_z: 7.0                   #default 10, meters
+          min_obstacle_height: 0.2     #default 0, meters
           vertical_fov_angle: 0.7      #default 0.7, radians
           vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
           horizontal_fov_angle: 1.04   #default 1.04, radians
@@ -287,7 +351,7 @@ planner_server:
       max_iterations: 1000000             # 搜索的最大总迭代次数（如果无法到达），设置为-1以禁用
       max_on_approach_iterations: 1000    # 一旦在容差范围内，尝试到达目标的最大迭代次数
       max_planning_time: 4.5              # 规划、平滑和上采样的最大时间（秒）。将根据规划后的剩余时间缩放最大平滑和上采样时间。
-      cost_travel_multiplier: 2.0         # For 2D: 应用于搜索的代价乘数，以避开高代价区域。较大的值将更精确地放置在通道的中心（如果存在非“FREE”代价势场），但计算时间稍长。为了优化速度，1.0是合理的值。合理的折衷值是2.0。0.0的值有效地禁用避开障碍物的功能，像一个简单的二进制搜索A*。
+      cost_travel_multiplier: 4.0         # For 2D: 应用于搜索的代价乘数，以避开高代价区域。较大的值将更精确地放置在通道的中心（如果存在非“FREE”代价势场），但计算时间稍长。为了优化速度，1.0是合理的值。合理的折衷值是2.0。0.0的值有效地禁用避开障碍物的功能，像一个简单的二进制搜索A*。
       motion_model_for_search: "DUBIN"    # For Hybrid Dubin, Redds-Shepp
       angle_quantization_bins: 72         # For Hybrid nodes: 搜索的角度桶数，对于2D节点必须为1（无角度搜索）
       analytic_expansion_ratio: 3.5       # For Hybrid/Lattice nodes: 在搜索过程中尝试解析扩展的比例，用于最终接近。
@@ -336,7 +400,7 @@ behavior_server:
     backup:
       plugin: "nav2_behaviors/BackUp"
       speed: -0.3  # 后退速度，负值
-      distance: 2.8  # 后退距离(米)
+      distance: 1.0  # 后退距离(米)
       time_allowance: 5.0  # 允许执行时间(秒
     drive_on_heading:
       plugin: "nav2_behaviors/DriveOnHeading"
