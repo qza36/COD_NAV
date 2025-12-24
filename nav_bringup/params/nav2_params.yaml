@@ -60,7 +60,7 @@ bt_navigator:
 controller_server:
   ros__parameters:
     use_sim_time: False
-    controller_frequency: 20.0
+    controller_frequency: 50.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -79,26 +79,26 @@ controller_server:
       yaw_goal_tolerance: 6.28
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
-      time_steps: 56  #是指在每个控制周期内，控制器将生成的轨迹点数。
+      time_steps: 50  #是指在每个控制周期内，控制器将生成的轨迹点数。
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
-      vx_std: 0.2 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
-      vy_std: 0.2
+      vx_std: 0.4 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vy_std: 0.4
       wz_std: 0.2
-      vx_max: 10.0 #控制器的线速度最大值。
-      vx_min: -10.0 #控制器的线速度最小值。
-      vy_max: 10.0 #控制器的侧向速度最大值。
-      wz_max: 0.0 #控制器的角速度最大值。
+      vx_max: 5.0 #控制器的线速度最大值。
+      vx_min: -5.0 #控制器的线速度最小值。
+      vy_max: 5.0 #控制器的侧向速度最大值。
+      wz_max: 1.0 #控制器的角速度最大值。
       ax_max: 10.0 #控制器的线加速度最大值。
       ax_min: -10.0 #控制器的线加速度最小值。
       ay_max: 10.0 #控制器的侧向加速度最大值。
       ay_min: -10.0
-      az_max: 0.0 #控制器的角加速度最大值。
+      az_max: 2.0 #控制器的角加速度最大值。
       iteration_count: 2 #控制器的迭代次数。
       prune_distance: 2.0 #控制器的轨迹剪枝距离。
-      transform_tolerance: 0.1 #控制器的变换容忍度, 用于判断是否需要重新计算轨迹，值越大，越容易重新计算。
-      temperature: 0.3 #控制器的温度。
-      gamma: 0.015 #控制器的 gamma 值,
+      transform_tolerance: 0.1 #控制器的变换容忍度
+      temperature: 1.50 #控制器的温度。
+      gamma: 0.002 #控制器的 gamma 值,
       motion_model: "Omni" #控制器的运动模型。
       visualize: true #是否可视化。
       reset_period: 0.1 # (only in Humble)
@@ -107,7 +107,7 @@ controller_server:
       TrajectoryVisualizer:
         trajectory_step: 5 #是指在可视化轨迹时，每隔多少个轨迹点绘制一个点。
         time_step: 3 #是指在可视化轨迹时，每隔多少个时间步长绘制一个点。
-      critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic" , "ObstaclesCritic"]
+      critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathFollowCritic",  "ObstaclesCritic"]
       ConstraintCritic:
         enabled: true
         cost_power: 1
@@ -117,16 +117,6 @@ controller_server:
         cost_power: 1
         cost_weight: 5.0
         threshold_to_consider: 1.4 # 考虑的阈值,和速度有关，值越大，速度越慢
-      GoalAngleCritic:
-        enabled: true
-        cost_power: 1
-        cost_weight: 3.0
-        threshold_to_consider: 0.5
-      PreferForwardCritic:
-        enabled: false
-        cost_power: 1
-        cost_weight: 5.0
-        threshold_to_consider: 0.5
       ObstaclesCritic: #障碍物
         enabled: false
         cost_power: 1
@@ -147,29 +137,12 @@ controller_server:
         collision_cost: 1000000.0 #碰撞代价
         near_goal_distance: 0.1 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
         trajectory_point_step: 2 #轨迹点步长
-      PathAlignCritic: #路径对齐
-        enabled: true
-        cost_power: 1
-        cost_weight: 10.0 # 代价权重
-        max_path_occupancy_ratio: 0.5
-        trajectory_point_step: 1 #轨迹点步长
-        threshold_to_consider: 0.5 # 考虑的阈值
-        offset_from_furthest: 20
-        use_path_orientations: false #是否使用路径方向
       PathFollowCritic: #是否跟随路径
         enabled: true
         cost_power: 1
         cost_weight: 50.0 # 代价权重
         offset_from_furthest: 5 # 距离最远点的偏移量
         threshold_to_consider: 0.4 # 考虑的阈值
-      PathAngleCritic: #路径角度
-        enabled: false
-        cost_power: 1
-        cost_weight: 2.0
-        offset_from_furthest: 4
-        threshold_to_consider: 0.2
-        max_angle_to_furthest: 1.0
-        mode: 0
 
 local_costmap:
   local_costmap:
@@ -437,9 +410,9 @@ velocity_smoother:
     smoothing_frequency: 30.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [2.0, 2.0, 2.0]
-    min_velocity: [-2.0, -2.0, -2.0]
-    deadband_velocity: [0.0, 0.0, 0.0]
+    max_velocity: [5.0, 5.0, 5.0]
+    min_velocity: [-5.0, -5.0, -5.0]
+    deadband_velocity: [0.05, 0.05, 0.05]
     velocity_timeout: 1.0
     max_accel: [2.0, 2.0, 2.0]
     max_decel: [-2.0, -2.0, -2.0]
