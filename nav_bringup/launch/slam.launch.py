@@ -3,9 +3,11 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, GroupAction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, Command
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
+from launch_ros.substitutions import FindPackageShare
+
 
 def generate_launch_description():
     # 获取包的共享目录
@@ -42,19 +44,27 @@ def generate_launch_description():
                 parameters=[{
                     'input_topic': '/livox/lidar',
                     'output_topic': '/livox/lidar_filtered',
-                    'min_x': -0.4, 'max_x': 0.4,
-                    'min_y': -0.3, 'max_y': 0.3,
-                    'min_z': -0.1, 'max_z': 0.6,
+                    'min_x': -0.2, 'max_x': 0.2,
+                    'min_y': -0.2, 'max_y': 0.2,
+                    'min_z': -0.1, 'max_z': 0.2,
                     'negative': True,   # 挖掉车身
                     'leaf_size': 0.05   # 降采样
                 }]
             ),
             Node(
-                package='fast_lio',
-                executable='fastlio_mapping',
-                parameters=[PathJoinSubstitution([fastlio_config_path, fast_lio_config_file]),
-                            {'use_sim_time': use_sim_time}],
-                output='screen'
+                    package="small_point_lio",
+                    executable="small_point_lio_node",
+                    name="small_point_lio",
+                    output="screen",
+                    parameters=[
+                        PathJoinSubstitution(
+                            [
+                                FindPackageShare("small_point_lio"),
+                                "config",
+                                "mid360.yaml",
+                            ]
+                        )
+                    ],
             ),
             Node(
                 package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
@@ -106,31 +116,6 @@ def generate_launch_description():
                     "map",
                     "--child-frame-id",
                     "odom",
-                ],
-            ),
-            Node(
-                package="loam_interface",
-                executable="loam_interface_node",
-                name="loam_interface",
-                output="screen",
-                parameters=[
-                    {
-                        "state_estimation_topic": "Odometry",
-                        "registered_scan_topic": "cloud_registered",
-                        "odom_frame": "odom",
-                        "base_frame": "base_link",
-                        "lidar_frame": "livox_frame",
-                    }
-                ],
-            ),
-            Node(
-                package="sensor_scan_generation",
-                executable="sensor_scan_generation_node",
-                output="screen",
-                parameters=[
-                    {"lidar_frame": "livox_frame"},
-                    {"base_frame": "base_link"},
-                    {"robot_base_frame": "base_link"},
                 ],
             ),
             Node(
