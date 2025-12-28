@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Visualization Manager:
   Class: ""
   Displays:
@@ -91,18 +91,6 @@ Visualization Manager:
           Value: true
         base_link_fake:
           Value: true
-        body:
-          Value: true
-        camera_color_frame:
-          Value: false
-        camera_color_optical_frame:
-          Value: false
-        camera_depth_frame:
-          Value: false
-        camera_depth_optical_frame:
-          Value: false
-        camera_init:
-          Value: true
         camera_link:
           Value: true
         livox_frame:
@@ -123,12 +111,7 @@ Visualization Manager:
               base_link_fake:
                 {}
               camera_link:
-                camera_color_frame:
-                  camera_color_optical_frame:
-                    {}
-                camera_depth_frame:
-                  camera_depth_optical_frame:
-                    {}
+                {}
               livox_frame:
                 {}
       Update Interval: 0
@@ -178,8 +161,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 1.625
-        Min Value: 0.17499999701976776
+        Max Value: 1.024999976158142
+        Min Value: 0.125
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -296,7 +279,8 @@ Visualization Manager:
       Enabled: true
       Name: MarkerArray
       Namespaces:
-        {}
+        Candidate Trajectories: true
+        Optimal Trajectory: true
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -325,6 +309,32 @@ Visualization Manager:
       Show Axes: false
       Show Descriptions: true
       Show Visual Aids: false
+      Value: true
+    - Class: rviz_default_plugins/Marker
+      Enabled: true
+      Name: Marker
+      Namespaces:
+        vehicle_body: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /crop_box_marker
+      Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/Polygon
+      Color: 25; 255; 0
+      Enabled: true
+      Name: Polygon
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /global_costmap/published_footprint
       Value: true
   Enabled: true
   Global Options:
@@ -372,25 +382,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 11.820329666137695
+      Distance: 12.425033569335938
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.6186820864677429
-        Y: 0.4905231297016144
-        Z: 0.19968420267105103
+        X: 3.1271324157714844
+        Y: -0.32176733016967773
+        Z: 0.8357736468315125
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.7647981643676758
+      Pitch: 1.3547978401184082
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.161684513092041
+      Yaw: 3.1466851234436035
     Saved: ~
 Window Geometry:
   Displays:

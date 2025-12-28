@@ -75,7 +75,7 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.15
+      xy_goal_tolerance: 0.1
       yaw_goal_tolerance: 6.28
 #    FollowPath:
 #      plugin: "pb_omni_pid_pursuit_controller::OmniPidPursuitController"
@@ -110,11 +110,11 @@ controller_server:
 #      max_velocity_scaling_factor_rate: 0.9             # 速度缩放因子的最大变化率
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
-      time_steps: 50  #是指在每个控制周期内，控制器将生成的轨迹点数。
+      time_steps: 60  #是指在每个控制周期内，控制器将生成的轨迹点数。
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
-      vx_std: 0.3 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
-      vy_std: 0.3
+      vx_std: 0.4 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vy_std: 0.4
       wz_std: 0.2
       vx_max: 10.5 #控制器的线速度最大值。
       vx_min: -10.5 #控制器的线速度最小值。
@@ -125,10 +125,10 @@ controller_server:
       ay_max: 10.0 #控制器的侧向加速度最大值。
       ay_min: -10.0
       az_max: 2.0 #控制器的角加速度最大值。
-      iteration_count: 5 #控制器的迭代次数。
+      iteration_count: 1 #控制器的迭代次数。
       prune_distance: 2.0 #控制器的轨迹剪枝距离。
       transform_tolerance: 0.1 #控制器的变换容忍度
-      temperature: 1.50 #控制器的温度。
+      temperature: 1.0 #控制器的温度。
       gamma: 0.01 #控制器的 gamma 值,
       motion_model: "Omni" #控制器的运动模型。
       visualize: true #是否可视化。
@@ -146,7 +146,7 @@ controller_server:
       GoalCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 15.0
+        cost_weight: 5.0
         threshold_to_consider: 10.4 
       ObstaclesCritic: #障碍物
         enabled: true
@@ -166,7 +166,7 @@ controller_server:
         critical_cost: 00.0 #临界代价
         consider_footprint: true
         collision_cost: 1000000.0 #碰撞代价
-        near_goal_distance: 0.1 #距离目标的距离,更改这个值会影响到达目标的速度，值越大，速度越慢
+        near_goal_distance: 0.2 
         trajectory_point_step: 2 #轨迹点步长
       PathFollowCritic: #是否跟随路径
         enabled: true
@@ -195,8 +195,8 @@ local_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.2
+        cost_scaling_factor: 1.0
+        inflation_radius: 0.3
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
@@ -227,7 +227,7 @@ local_costmap:
           raytrace_range: 9.0
 
           min_obstacle_height: 0.1     #default 0, meters
-          max_obstacle_height: 2.0     #defaule 3, meters
+          max_obstacle_height: 1.0     #defaule 3, meters
           expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
           inf_is_valid: false          #default false, for laser scans
@@ -278,8 +278,8 @@ global_costmap:
         enable: true
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 0.2
+        cost_scaling_factor: 1.0
+        inflation_radius: 0.3
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
@@ -310,7 +310,7 @@ global_costmap:
           raytrace_range: 9.0
 
           min_obstacle_height: 0.1     #default 0, meters
-          max_obstacle_height: 2.0     #defaule 3, meters
+          max_obstacle_height: 1.0     #defaule 3, meters
           expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
           inf_is_valid: false          #default false, for laser scans
