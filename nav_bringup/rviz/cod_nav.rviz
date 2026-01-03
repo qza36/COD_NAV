@@ -8,7 +8,7 @@ Panels:
         - /TF1
         - /TF1/Tree1
       Splitter Ratio: 0.5
-    Tree Height: 515
+    Tree Height: 363
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: PointCloud2
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -87,17 +87,57 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
+        armor_0:
           Value: true
-        base_link_fake:
+        armor_1:
           Value: true
-        camera_link:
+        armor_2:
           Value: true
-        livox_frame:
+        armor_3:
+          Value: true
+        armor_support_frame_0:
+          Value: true
+        armor_support_frame_1:
+          Value: true
+        armor_support_frame_2:
+          Value: true
+        armor_support_frame_3:
+          Value: true
+        base_footprint:
+          Value: true
+        chassis:
+          Value: true
+        front_industrial_camera:
+          Value: true
+        front_industrial_camera_optical_frame:
+          Value: true
+        front_left_wheel:
+          Value: true
+        front_mid360:
+          Value: true
+        front_right_wheel:
+          Value: true
+        front_rplidar_a2:
+          Value: true
+        gimbal_pitch:
+          Value: true
+        gimbal_pitch_odom:
+          Value: true
+        gimbal_yaw:
+          Value: true
+        gimbal_yaw_odom:
+          Value: true
+        light_indicator:
           Value: true
         map:
           Value: true
         odom:
+          Value: true
+        rear_left_wheel:
+          Value: true
+        rear_right_wheel:
+          Value: true
+        speed_monitor:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -107,12 +147,41 @@ Visualization Manager:
       Tree:
         map:
           odom:
-            base_link:
-              base_link_fake:
+            chassis:
+              armor_support_frame_0:
+                armor_0:
+                  {}
+              armor_support_frame_1:
+                armor_1:
+                  {}
+              armor_support_frame_2:
+                armor_2:
+                  {}
+              armor_support_frame_3:
+                armor_3:
+                  {}
+              front_left_wheel:
                 {}
-              camera_link:
+              front_mid360:
                 {}
-              livox_frame:
+              front_right_wheel:
+                {}
+              front_rplidar_a2:
+                {}
+              gimbal_yaw_odom:
+                gimbal_pitch_odom:
+                  gimbal_yaw:
+                    gimbal_pitch:
+                      front_industrial_camera:
+                        front_industrial_camera_optical_frame:
+                          {}
+                      speed_monitor:
+                        {}
+              light_indicator:
+                {}
+              rear_left_wheel:
+                {}
+              rear_right_wheel:
                 {}
       Update Interval: 0
       Value: true
@@ -279,8 +348,7 @@ Visualization Manager:
       Enabled: true
       Name: MarkerArray
       Namespaces:
-        Candidate Trajectories: true
-        Optimal Trajectory: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -314,7 +382,7 @@ Visualization Manager:
       Enabled: true
       Name: Marker
       Namespaces:
-        vehicle_body: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -382,25 +450,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 12.425033569335938
+      Distance: 11.895964622497559
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 3.1271324157714844
-        Y: -0.32176733016967773
-        Z: 0.8357736468315125
+        X: -4.418151378631592
+        Y: -0.10352149605751038
+        Z: 0.04616519808769226
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3547978401184082
+      Pitch: 0.9447982311248779
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1466851234436035
+      Yaw: 3.176684856414795
     Saved: ~
 Window Geometry:
   Displays:
@@ -418,5 +486,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 954
-  X: 264
-  Y: 163
+  X: 989
+  Y: 27

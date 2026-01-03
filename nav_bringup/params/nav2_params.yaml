@@ -1,9 +1,9 @@
 bt_navigator:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: true
     global_frame: map
-    robot_base_frame: base_link_fake
-    odom_topic: odomety
+    robot_base_frame: chassis
+    odom_topic: /chassis_odometry_gt
     bt_loop_duration: 10
     timeout: 100
     wait_for_service_timeout: 1000
@@ -59,7 +59,7 @@ bt_navigator:
       - nav2_is_battery_charging_condition_bt_node
 controller_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     controller_frequency: 50.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
@@ -77,37 +77,6 @@ controller_server:
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.1
       yaw_goal_tolerance: 6.28
-#    FollowPath:
-#      plugin: "pb_omni_pid_pursuit_controller::OmniPidPursuitController"
-#      translation_kp: 3.5
-#      translation_ki: 0.45
-#      translation_kd: 1.5
-#      enable_rotation: false
-#      rotation_kp: 3.0
-#      rotation_ki: 0.5
-#      rotation_kd: 0.3
-#      transform_tolerance: 0.1
-#      min_max_sum_error: 1.0
-#      lookahead_dist: 0.5
-#      use_velocity_scaled_lookahead_dist: true
-#      lookahead_time: 1.0
-#      min_lookahead_dist: 0.5
-#      max_lookahead_dist: 1.0
-#      use_interpolation: true
-#      use_rotate_to_heading: false
-#      use_rotate_to_heading_treshold: 0.1
-#      min_approach_linear_velocity: 0.5
-#      approach_velocity_scaling_dist: 1.0
-#      v_linear_min: -2.0
-#      v_linear_max: 2.0
-#      v_angular_min: -3.0
-#      v_angular_max: 3.0
-#      curvature_min: 0.4                                # 低曲率阈值，低于此值不减速。
-#      curvature_max: 0.5                                # 高曲率阈值，高于此值大幅减速。
-#      reduction_ratio_at_high_curvature: 0.5            # 高曲率时的速度降低比例。 0.5 (即减速 50%)
-#      curvature_forward_dist: 0.7                       # 前向距离，用于曲率计算
-#      curvature_backward_dist: 0.3                      # 后向距离，用于曲率计算
-#      max_velocity_scaling_factor_rate: 0.9             # 速度缩放因子的最大变化率
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 60  #是指在每个控制周期内，控制器将生成的轨迹点数。
@@ -181,15 +150,15 @@ local_costmap:
       update_frequency: 20.0
       publish_frequency: 20.0
       global_frame: odom
-      robot_base_frame: base_link_fake
-      use_sim_time: False
+      robot_base_frame: chassis
+      use_sim_time: True
       rolling_window: true
       width: 10
       height: 10
       resolution: 0.05
       robot_radius: 0.2
       footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
-      plugins: ["static_layer","stvl_voxel_layer","inflation_layer"]
+      plugins: ["static_layer","voxel_layer","inflation_layer"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -197,62 +166,26 @@ local_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 0.5
         inflation_radius: 0.2
-      stvl_voxel_layer:
-        plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
-        enabled: true
-        voxel_decay: 0.2     #seconds if linear, e^n if exponential
-        decay_model: 0      #0=linear, 1=exponential, 2=persistent
-        voxel_size: 0.05   #meters
-        track_unknown_space: true   #default space is unknown
-        observation_persistence: 0.0  #seconds
-        max_obstacle_height: 2.0    #meters
-        mark_threshold: 0      #voxel height
-        update_footprint_enabled: true
-        combination_method: 1      #1=max, 0=override
-        obstacle_range: 3.0    #meters
-        origin_z: 0.0    #meters
-        publish_voxel_map: true   # default off
-        transform_tolerance: 0.2    # seconds
-        mapping_mode: false  # default off, saves map not for navigation
-        map_save_duration: 60.0     #default 60s, how often to autosave
-        observation_sources: livox_source realsense_source
-        livox_source:
-          data_type: PointCloud2
-          topic:  /livox/lidar_filtered
-          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
-          marking: true
-          clearing: true
-
-          obstacle_range: 8.0
-          raytrace_range: 9.0
-
-          min_obstacle_height: 0.1     #default 0, meters
-          max_obstacle_height: 1.0     #defaule 3, meters
-          expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
-          observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
-          inf_is_valid: false          #default false, for laser scans
-          clear_after_reading: true    #default false, clear the buffer after the layer gets readings from it
-          filter: "voxel"              #default passthrough, apply "voxel", "passthrough", or no filter to sensor data, recommended to have at one filter on
-          voxel_min_points: 0          #default 0, minimum points per voxel for voxel filter
-          model_type: 1
-          vertical_fov_angle: 2.00      #default 0.7, radians
-          vertical_fov_offset: 0.0
-          horizontal_fov_angle: 6.28
-        realsense_source:
-          enabled: true                #default true, can be toggled on/off with associated service call
-          data_type: PointCloud2
-          topic: /camera/camera/depth/color/points
-          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
-          marking: true
-          clearing: true
-          min_z: 0.1                   #default 0, meters
-          max_z: 7.0                   #default 10, meters
-          min_obstacle_height: 0.2     #default 0, meters
-          vertical_fov_angle: 2.0      #default 0.7, radians
-          vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
-          horizontal_fov_angle: 6.28   #default 1.04, radians
-          decay_acceleration: 1.       #default 0, 1/s^2. If laser scanner MUST be 0
-          model_type: 0                #default 0 (depth camera). Use 1 for 3D Lidar
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
+        observation_sources: scan
+        scan:
+          topic: /robot/rplidar_a2/scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 1.0
       always_send_full_costmap: True
 
 
@@ -264,14 +197,14 @@ global_costmap:
       update_frequency: 20.0
       publish_frequency: 20.0
       global_frame: map
-      robot_base_frame: base_link_fake
+      robot_base_frame: chassis
       rolling_window: true
-      use_sim_time: False
+      use_sim_time: True
       robot_radius: 0.5
       footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
       resolution: 0.04
       track_unknown_space: true
-      plugins: ["static_layer","stvl_voxel_layer","inflation_layer"]
+      plugins: ["static_layer","voxel_layer","inflation_layer"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -280,74 +213,38 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 0.5
         inflation_radius: 0.2
-      stvl_voxel_layer:
-        plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
-        enabled: true
-        voxel_decay: 0.2     #seconds if linear, e^n if exponential
-        decay_model: 0      #0=linear, 1=exponential, 2=persistent
-        voxel_size: 0.05   #meters
-        track_unknown_space: true   #default space is unknown
-        observation_persistence: 0.0  #seconds
-        max_obstacle_height: 2.0    #meters
-        mark_threshold: 0      #voxel height
-        update_footprint_enabled: true
-        combination_method: 1      #1=max, 0=override
-        obstacle_range: 3.0    #meters
-        origin_z: 0.0    #meters
-        publish_voxel_map: true   # default off
-        transform_tolerance: 0.2    # seconds
-        mapping_mode: false  # default off, saves map not for navigation
-        map_save_duration: 60.0     #default 60s, how often to autosave
-        observation_sources: livox_source realsense_source
-        livox_source:
-          data_type: PointCloud2
-          topic:  /livox/lidar_filtered
-          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
-          marking: true
-          clearing: true
-
-          obstacle_range: 8.0
-          raytrace_range: 9.0
-
-          min_obstacle_height: 0.1     #default 0, meters
-          max_obstacle_height: 1.0     #defaule 3, meters
-          expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
-          observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
-          inf_is_valid: false          #default false, for laser scans
-          clear_after_reading: true    #default false, clear the buffer after the layer gets readings from it
-          filter: "voxel"              #default passthrough, apply "voxel", "passthrough", or no filter to sensor data, recommended to have at one filter on
-          voxel_min_points: 0          #default 0, minimum points per voxel for voxel filter
-          model_type: 1
-          vertical_fov_angle: 2.00      #default 0.7, radians
-          vertical_fov_offset: 0.0
-          horizontal_fov_angle: 6.28
-        realsense_source:
-          enabled: true                #default true, can be toggled on/off with associated service call
-          data_type: PointCloud2
-          topic: /camera/camera/depth/color/points
-          transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
-          marking: true
-          clearing: true
-          min_z: 0.2                   #default 0, meters
-          max_z: 7.0                   #default 10, meters
-          min_obstacle_height: 0.2     #default 0, meters
-          vertical_fov_angle: 0.7      #default 0.7, radians
-          vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
-          horizontal_fov_angle: 1.04   #default 1.04, radians
-          decay_acceleration: 1.       #default 0, 1/s^2. If laser scanner MUST be 0
-          model_type: 0                #default 0 (depth camera). Use 1 for 3D Lidar
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        mark_threshold: 0
+        observation_sources: scan
+        scan:
+          topic: /robot/rplidar_a2/scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 1.0
       always_send_full_costmap: True
 
 map_server:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     # Overridden in launch by the "map" launch configuration or provided default value.
     # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
     yaml_filename: "/home/cod-sentry/qza_ws/cod_nav/map.yaml"
 
 map_saver:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -355,7 +252,7 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    use_sim_time: false
+    use_sim_time: True
     expected_planner_frequency: 10.0
     planner_plugins: ["GridBased"]
     GridBased:
@@ -394,7 +291,7 @@ smoother_server:
   ros__parameters:
     costmap_topic: global_costmap/costmap_raw
     footprint_topic: global_costmap/published_footprint
-    robot_base_frame: base_link_fake
+    robot_base_frame: chassis
     transform_tolerance: 0.1
     smoother_plugins: ["savitzky_golay_smoother"]
     savitzky_golay_smoother:
@@ -415,9 +312,6 @@ behavior_server:
       plugin: "nav2_behaviors/Spin"
     backup:
       plugin: "nav2_behaviors/BackUp"
-      speed: -0.3  # 后退速度，负值
-      distance: 1.0  # 后退距离(米)
-      time_allowance: 5.0  # 允许执行时间(秒
     drive_on_heading:
       plugin: "nav2_behaviors/DriveOnHeading"
     wait:
@@ -425,9 +319,9 @@ behavior_server:
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: map
-    robot_base_frame: base_link_fake
+    robot_base_frame: chassis
     transform_tolerance: 0.1
-    use_sim_time: false
+    use_sim_time: True
     simulate_ahead_time: 1.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
@@ -435,11 +329,11 @@ behavior_server:
 
 robot_state_publisher:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
 
 waypoint_follower:
   ros__parameters:
-    use_sim_time: False
+    use_sim_time: True
     loop_rate: 20
     stop_on_failure: false
     waypoint_task_executor_plugin: "wait_at_waypoint"
@@ -459,5 +353,5 @@ velocity_smoother:
     velocity_timeout: 1.0
     max_accel: [2.0, 2.0, 2.0]
     max_decel: [-2.0, -2.0, -2.0]
-    odom_topic: "odometry"
+    odom_topic: "/chassis_odometry_gt"
     odom_duration: 0.1

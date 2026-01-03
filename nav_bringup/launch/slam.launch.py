@@ -10,18 +10,11 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    # 获取包的共享目录
-    fastlio_dir = get_package_share_directory('fast_lio')
     bring_up_dir = get_package_share_directory('nav_bringup')
-
-
-    fastlio_config_path = os.path.join(fastlio_dir, 'config')
     rviz_config_file = os.path.join(bring_up_dir, 'rviz', 'cod_nav.rviz')
 
-    fast_lio_config_file = 'mid360.yaml'
-    # 声明启动参数
     declare_use_sim_time = DeclareLaunchArgument(
-        'use_sim_time', default_value='false',
+        'use_sim_time', default_value='true',
         description='Use simulation (Gazebo) clock if true')
     declare_slam_params_file = DeclareLaunchArgument(
         'slam_params_file', default_value=os.path.join(bring_up_dir,'params','mapper_params_async.yaml')
@@ -33,59 +26,8 @@ def generate_launch_description():
     slam_params_file = LaunchConfiguration('slam_params_file')
     nav2_params_file = LaunchConfiguration('nav2_params_file')
 
-    # 定义节点和包含的launch文件
     load_nodes = GroupAction(
         actions=[
-            Node(
-                package='cpp_lidar_filter',
-                executable='lidar_filter_node',
-                name='my_lidar_filter',
-                output='screen',
-                parameters=[{
-                    'input_topic': '/livox/lidar',
-                    'output_topic': '/livox/lidar_filtered',
-                    'min_x': -0.2, 'max_x': 0.2,
-                    'min_y': -0.2, 'max_y': 0.4,
-                    'min_z': -0.1, 'max_z': 0.2,
-                    'negative': True,   # 挖掉车身
-                    'leaf_size': 0.05   # 降采样
-                }]
-            ),
-            Node(
-                    package="small_point_lio",
-                    executable="small_point_lio_node",
-                    name="small_point_lio",
-                    output="screen",
-                    parameters=[
-                        PathJoinSubstitution(
-                            [
-                                FindPackageShare("small_point_lio"),
-                                "config",
-                                "mid360.yaml",
-                            ]
-                        )
-                    ],
-            ),
-            Node(
-                package='pointcloud_to_laserscan', executable='pointcloud_to_laserscan_node',
-                remappings=[('cloud_in',  '/livox/lidar'),
-                            ('scan', '/scan')],
-                parameters=[{
-                    'target_frame': 'base_link',
-                    'transform_tolerance': 0.5,
-                    'min_height': 0.01,
-                    'max_height': 1.00,
-                    'angle_min': -3.1416,  # -M_PI/2
-                    'angle_max': 3.1416,  # M_PI/2
-                    'angle_increment': 0.0087,  # M_PI/360.0
-                    'scan_time': 0.3333,
-                    'range_min': 0.5,
-                    'range_max': 20.0,
-                    'use_inf': True,
-                    'inf_epsilon': 1.0
-                }],
-                name='pointcloud_to_laserscan'
-            ),
             Node(
                 package='slam_toolbox',
                 executable='async_slam_toolbox_node',
@@ -99,50 +41,27 @@ def generate_launch_description():
             Node(
                 package="tf2_ros",
                 executable="static_transform_publisher",
+                parameters=[{'use_sim_time': use_sim_time}],
                 arguments=[
-                    "--x",
-                    "0.0",
-                    "--y",
-                    "0.0",
-                    "--z",
-                    "0.05",
-                    "--roll",
-                    "0.0",
-                    "--pitch",
-                    "0.0",
-                    "--yaw",
-                    "0.0",
-                    "--frame-id",
-                    "map",
-                    "--child-frame-id",
-                    "odom",
+                    "--x", "0.0", "--y", "0.0", "--z", "0.0",
+                    "--roll", "0.0", "--pitch", "0.0", "--yaw", "0.0",
+                    "--frame-id", "map", "--child-frame-id", "odom",
                 ],
             ),
             Node(
-                package="fake_vel_transform",
-                executable="fake_vel_transform_node",
-                output="screen",
-                parameters=[{"use_sim_time": use_sim_time}],
-            ),
-            Node(
-                package="cod_serial_ul26",
-                executable="cod_serial",
-                output="screen",
-                parameters=[{"use_sim_time": use_sim_time}],
-            ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(get_package_share_directory('realsense2_camera'),'launch','rs_launch.py')
-                ),
-                launch_arguments={
-                    'depth_module.depth_profile': '1280x720x30',
-                    'pointcloud.enable': 'true'
-                }.items()
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                parameters=[{'use_sim_time': use_sim_time}],
+                arguments=[
+                    "--x", "0.0", "--y", "0.0", "--z", "0.0",
+                    "--roll", "0.0", "--pitch", "0.0", "--yaw", "0.0",
+                    "--frame-id", "chassis", "--child-frame-id", "front_rplidar_a2",
+                ],
             ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','navigation_launch.py')),
                 launch_arguments={
-                                  'use_sim_time': "false",
+                                  'use_sim_time': use_sim_time,
                                   'autostart': "true",
                                   'params_file': nav2_params_file,
                                   'use_composition': 'False',
@@ -153,12 +72,9 @@ def generate_launch_description():
                 package='rviz2',
                 executable='rviz2',
                 arguments=['-d',rviz_config_file],
+                parameters=[{'use_sim_time': use_sim_time}],
                 output='screen',
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
-            # )
         ]
     )
 
