@@ -58,6 +58,10 @@ def generate_launch_description():
                     "--frame-id", "chassis", "--child-frame-id", "front_rplidar_a2",
                 ],
             ),
+            Node(
+                package="fake_vel_transform",
+                executable="fake_vel_transform_node",
+            ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','navigation_launch.py')),
                 launch_arguments={
