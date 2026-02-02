@@ -113,23 +113,32 @@ controller_server:
       time_steps: 60  #是指在每个控制周期内，控制器将生成的轨迹点数。
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
-      vx_std: 0.5 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
-      vy_std: 0.5
-      wz_std: 0.2
-      vx_max: 10.5 #控制器的线速度最大值。
-      vx_min: -10.5 #控制器的线速度最小值。
-      vy_max: 10.5 #控制器的侧向速度最大值。
-      wz_max: 1.0 #控制器的角速度最大值。
-      ax_max: 5.0 #控制器的线加速度最大值。
-      ax_min: -10.0 #控制器的线加速度最小值。
-      ay_max: 10.0 #控制器的侧向加速度最大值。
-      ay_min: -10.0
-      az_max: 2.0 #控制器的角加速度最大值。
+
+      vx_std: 0.2 #控制器的线速度标准差, 用于生成随机噪声。复杂环境下，可以适当增大。
+      vy_std: 0.2
+      wz_std: 0.5
+
+      vx_max: 1.5 
+      vy_max: 1.5 
+      wz_max: 1.5
+
+      vx_min: -1.5 #控制器的线速度最小值。
+      vy_min: -1.5
+      wz_min: -1.5
+
+      ax_max: 1.0 #控制器的线加速度最大值。
+      ay_max: 1.0 #控制器的侧向加速度最大值。
+      az_max: 1.0 #控制器的角加速度最大值。
+
+      ax_min: -1.0 #控制器的线加速度最小值。
+      ay_min: -1.0
+      az_min: -1.0
+
       iteration_count: 1 #控制器的迭代次数。
       prune_distance: 2.0 #控制器的轨迹剪枝距离。
       transform_tolerance: 0.1 #控制器的变换容忍度
       temperature: 1.5 #控制器的温度。
-      gamma: 0.01 #控制器的 gamma 值,
+      gamma: 0.008 #控制器的 gamma 值，越小越激进
       motion_model: "Omni" #控制器的运动模型。
       visualize: true #是否可视化。
       reset_period: 0.08 # (only in Humble)
@@ -138,42 +147,42 @@ controller_server:
       TrajectoryVisualizer:
         trajectory_step: 5 #是指在可视化轨迹时，每隔多少个轨迹点绘制一个点。
         time_step: 3 #是指在可视化轨迹时，每隔多少个时间步长绘制一个点。
-      critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathFollowCritic",  "ObstaclesCritic"]
+      critics: [ "ConstraintCritic", "CostCritic", "GoalCritic", "PathFollowCritic",  "ObstaclesCritic"]
       ConstraintCritic:
         enabled: true
         cost_power: 1
         cost_weight: 4.0
+
       GoalCritic:
         enabled: true
         cost_power: 1
-        cost_weight: 15.0
-        threshold_to_consider: 10.4 
+        cost_weight: 5.0
+        threshold_to_consider: 2.0 
+
       ObstaclesCritic: #障碍物
         enabled: true
         cost_power: 1
         repulsion_weight: 1.5
         critical_weight: 25.0
-        consider_footprint: false
+        consider_footprint: true
         collision_cost: 10000.0
-        collision_margin_distance: 0.2
-        near_goal_distance: 0.2
-        inflation_radius: 0.2 # (only in Humble)
-        cost_scaling_factor: 3.0 # (only in Humble)
+
       CostCritic: #代价，用于计算代价，代价越大，越不容易选择
         enabled: true
         cost_power: 1
-        cost_weight: 15.0
+        cost_weight: 10.0
         critical_cost: 50.0 #临界代价
         consider_footprint: true
         collision_cost: 1000000.0 #碰撞代价
         near_goal_distance: 0.2 
         trajectory_point_step: 2 #轨迹点步长
+
       PathFollowCritic: #是否跟随路径
         enabled: true
         cost_power: 1
-        cost_weight: 20.0 # 代价权重
-        offset_from_furthest: 5 # 距离最远点的偏移量
-        threshold_to_consider: 0.4 # 考虑的阈值
+        cost_weight: 15.0 # 代价权重
+        offset_from_furthest: 2 # 距离最远点的偏移量
+        threshold_to_consider: 1.5 # 考虑的阈值
 
 local_costmap:
   local_costmap:
@@ -188,7 +197,7 @@ local_costmap:
       height: 10
       resolution: 0.05
       robot_radius: 0.2
-      footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
+      footprint: "[ [0.15, 0.15], [0.15, -0.15], [-0.15, -0.15], [-0.15, 0.15] ]"
       plugins: ["static_layer","stvl_voxel_layer","inflation_layer"]
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
@@ -200,7 +209,7 @@ local_costmap:
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
-        voxel_decay: 0.2     #seconds if linear, e^n if exponential
+        voxel_decay: 0.5     #seconds if linear, e^n if exponential
         decay_model: 0      #0=linear, 1=exponential, 2=persistent
         voxel_size: 0.05   #meters
         track_unknown_space: true   #default space is unknown
@@ -226,7 +235,7 @@ local_costmap:
           obstacle_range: 8.0
           raytrace_range: 9.0
 
-          min_obstacle_height: 0.1     #default 0, meters
+          min_obstacle_height: 0.0     #default 0, meters
           max_obstacle_height: 1.0     #defaule 3, meters
           expected_update_rate: 0.0    #default 0, if not updating at this rate at least, remove from buffer
           observation_persistence: 0.0 #default 0, use all measurements taken during now-value, 0=latest
@@ -245,12 +254,12 @@ local_costmap:
           transport_type: "raw"        #default raw -No compression-, Options: zlib, draco, zstd
           marking: true
           clearing: true
-          min_z: 0.1                   #default 0, meters
+          min_z: 0.2                   #default 0, meters
           max_z: 7.0                   #default 10, meters
           min_obstacle_height: 0.2     #default 0, meters
-          vertical_fov_angle: 2.0      #default 0.7, radians
+          vertical_fov_angle: 0.7      #default 0.7, radians
           vertical_fov_offset: 0.0     # default 0, radians. 3D Lidar only. Offset from planar axis. f.e. MID360 has a vFOV of -7deg to 52deg => offset +22.5deg (0.3927 rad)
-          horizontal_fov_angle: 6.28   #default 1.04, radians
+          horizontal_fov_angle: 1.04   #default 1.04, radians
           decay_acceleration: 1.       #default 0, 1/s^2. If laser scanner MUST be 0
           model_type: 0                #default 0 (depth camera). Use 1 for 3D Lidar
       always_send_full_costmap: True
@@ -268,7 +277,7 @@ global_costmap:
       rolling_window: true
       use_sim_time: False
       robot_radius: 0.5
-      footprint: "[ [0.35, 0.35], [0.35, -0.35], [-0.35, -0.35], [-0.35, 0.35] ]"
+      footprint: "[ [0.15, 0.15], [0.15, -0.15], [-0.15, -0.15], [-0.15, 0.15] ]"
       resolution: 0.04
       track_unknown_space: true
       plugins: ["static_layer","stvl_voxel_layer","inflation_layer"]
@@ -283,7 +292,7 @@ global_costmap:
       stvl_voxel_layer:
         plugin: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"
         enabled: true
-        voxel_decay: 0.2     #seconds if linear, e^n if exponential
+        voxel_decay: 0.5     #seconds if linear, e^n if exponential
         decay_model: 0      #0=linear, 1=exponential, 2=persistent
         voxel_size: 0.05   #meters
         track_unknown_space: true   #default space is unknown
