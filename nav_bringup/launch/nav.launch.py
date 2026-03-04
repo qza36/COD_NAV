@@ -44,8 +44,8 @@ def generate_launch_description():
                 parameters=[{
                     'input_topic': '/livox/lidar',
                     'output_topic': '/livox/lidar_filtered',
-                    'min_x': -0.2, 'max_x': 0.2,
-                    'min_y': -0.2, 'max_y': 0.4,
+                    'min_x': -0.3, 'max_x': 0.3,
+                    'min_y': -0.3, 'max_y': 0.5,
                     'min_z': -0.1, 'max_z': 0.2,
                     'negative': True,   # 挖掉车身
                     'leaf_size': 0.05   # 降采样
@@ -85,16 +85,6 @@ def generate_launch_description():
                     'inf_epsilon': 1.0
                 }],
                 name='pointcloud_to_laserscan'
-            ),
-            Node(
-                package='slam_toolbox',
-                executable='async_slam_toolbox_node',
-                name='slam_toolbox',
-                output='screen',
-                parameters=[
-                    slam_params_file,
-                    {'use_sim_time': use_sim_time}
-                ],
             ),
             Node(
                 package="tf2_ros",
@@ -149,16 +139,22 @@ def generate_launch_description():
                                   'use_respawn': 'False',
                                   'container_name': 'nav2_container'}.items()
             ),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','localization_launch.py')),
+                launch_arguments={
+                                  'use_sim_time': "false",
+                                  'autostart': "true",
+                                  'params_file': nav2_params_file,
+                                  'use_composition': 'False',
+                                  'use_respawn': 'False',
+                                  'container_name': 'nav2_container'}.items()
+            ),
             Node(
                 package='rviz2',
                 executable='rviz2',
                 arguments=['-d',rviz_config_file],
                 output='screen',
             ),
-            # IncludeLaunchDescription(
-            #     PythonLaunchDescriptionSource([bring_up_dir,'/launch/nav_bring_up.launch.py']),
-            #     launch_arguments={'use_sim_time': use_sim_time,'map': '/home/cod-sentry/qza_ws/cod_nav/src/sim_test.yaml'}.items()
-            # )
         ]
     )
 

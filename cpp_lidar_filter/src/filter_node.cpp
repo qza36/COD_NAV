@@ -36,7 +36,7 @@ public:
       std::bind(&LidarFilterNode::cloud_callback, this, std::placeholders::_1));
 
     pub_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-          output_topic, 10);
+          output_topic, rclcpp::SensorDataQoS());
     marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>("crop_box_marker", 10);
 
     timer_ = this->create_wall_timer(
