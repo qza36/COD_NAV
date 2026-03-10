@@ -75,7 +75,7 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.1
+      xy_goal_tolerance: 0.25 #放宽到25cm，高速omni机器人10cm太严导致绕圈
       yaw_goal_tolerance: 6.28
 #    FollowPath:
 #      plugin: "pb_omni_pid_pursuit_controller::OmniPidPursuitController"
@@ -157,8 +157,8 @@ controller_server:
       GoalCritic: #必须开启，否则机器人没有到达目标的动力
         enabled: true
         cost_power: 1
-        cost_weight: 5.0
-        threshold_to_consider: 1.4 #距目标1.4m内才激活，避免远处就拐弯
+        cost_weight: 15.0 #大幅提高，近目标时必须压过其他critic成为主导力
+        threshold_to_consider: 2.5 #提前激活，给高速机器人足够减速距离
 
       ObstaclesCritic: #开启提供额外的障碍物排斥力
         enabled: true
@@ -187,13 +187,13 @@ controller_server:
         offset_from_furthest: 5 #关注路径前方更远的点
         threshold_to_consider: 1.5 #距目标1.5m内关闭（交给GoalCritic）
 
-      PathAlignCritic: #新增：让轨迹方向与路径对齐，高速下更平滑
+      PathAlignCritic: #让轨迹方向与路径对齐，高速下更平滑
         enabled: true
         cost_power: 1
         cost_weight: 14.0
         max_path_occupancy_ratio: 0.05
         trajectory_point_step: 4
-        threshold_to_consider: 0.5
+        threshold_to_consider: 1.5 #关键修正！与PathFollowCritic同步关闭，消除近目标区的切线力
         offset_from_furthest: 20
         use_path_orientations: false #omni机器人用运动方向而非朝向
 
