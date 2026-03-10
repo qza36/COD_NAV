@@ -130,15 +130,15 @@ def generate_launch_description():
                 output="screen",
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(get_package_share_directory('realsense2_camera'),'launch','rs_launch.py')
-                ),
-                launch_arguments={
-                    'depth_module.depth_profile': '1280x720x30',
-                    'pointcloud.enable': 'true'
-                }.items()
-            ),
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource(
+            #         os.path.join(get_package_share_directory('realsense2_camera'),'launch','rs_launch.py')
+            #     ),
+            #     launch_arguments={
+            #         'depth_module.depth_profile': '1280x720x30',
+            #         'pointcloud.enable': 'true'
+            #     }.items()
+            # ),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(bring_up_dir,'launch','navigation_launch.py')),
                 launch_arguments={
