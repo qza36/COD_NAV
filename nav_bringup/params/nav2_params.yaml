@@ -114,8 +114,8 @@ controller_server:
       model_dt: 0.05  #是指控制器的时间步长，值越小，控制器越精确，但计算量也越大。
       batch_size: 2000 #控制器的采样数。
 
-      vx_std: 0.3 #线速度噪声标准差，配合高速需要更聚焦的采样
-      vy_std: 0.3
+      vx_std: 0.5 #加大噪声范围，让采样覆盖更高速度区间
+      vy_std: 0.5
       wz_std: 0.4
 
       vx_max: 7.5
@@ -126,22 +126,22 @@ controller_server:
       vy_min: -7.5
       wz_min: -2.5
 
-      ax_max: 3.5 #加速度提高，高速时能快速响应
-      ay_max: 3.5
-      az_max: 3.0
+      ax_max: 5.0 #最大化加速能力，尽快拉满速度
+      ay_max: 5.0
+      az_max: 3.5
 
-      ax_min: -3.5 #关键：制动力必须对称，高速下刹得住
-      ay_min: -3.5
-      az_min: -3.0
+      ax_min: -5.0 #制动力对称
+      ay_min: -5.0
+      az_min: -3.5
 
       iteration_count: 1
       prune_distance: 1.7 #高速下提前剪枝已通过的路径点
       transform_tolerance: 0.1
       temperature: 0.25 #大幅降低：让 MPPI 更果断选最优轨迹，不在次优之间摇摆
-      gamma: 0.015 #稍微提高正则化，减少激进抖动
+      gamma: 0.008 #降低正则化，允许更快的速度变化
       motion_model: "Omni" #控制器的运动模型。
       visualize: true #是否可视化。
-      reset_period: 0.08 # (only in Humble)
+      reset_period: 1.0 # 延长重置周期，保持warm-start让速度持续攀升
       retry_attempt_limit: 2 #软重置的尝试次数
       regenerate_noises: true
       TrajectoryVisualizer:
@@ -173,7 +173,7 @@ controller_server:
       CostCritic: #通过 costmap 梯度引导避障
         enabled: true
         cost_power: 1
-        cost_weight: 3.8 #适当降低，配合修正后的 inflation 梯度
+        cost_weight: 3.0 #降低避障保守度，不在空旷区域无谓减速
         critical_cost: 253.0 #关键修正！只有 inscribed/lethal 才触发碰撞惩罚，不再把整个膨胀区都当碰撞
         consider_footprint: true
         collision_cost: 1000000.0
@@ -190,7 +190,7 @@ controller_server:
       PathAlignCritic: #让轨迹方向与路径对齐，高速下更平滑
         enabled: true
         cost_power: 1
-        cost_weight: 14.0
+        cost_weight: 10.0 #降低对齐惩罚，弯道时不再为了对齐而大幅减速
         max_path_occupancy_ratio: 0.05
         trajectory_point_step: 4
         threshold_to_consider: 1.5 #关键修正！与PathFollowCritic同步关闭，消除近目标区的切线力
@@ -472,14 +472,14 @@ waypoint_follower:
 
 velocity_smoother:
   ros__parameters:
-    smoothing_frequency: 30.0
+    smoothing_frequency: 50.0 #与controller_frequency一致，不拖后腿
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [7.5, 7.5, 2.5] #与 MPPI 限速一致，不再截断高速输出
+    max_velocity: [7.5, 7.5, 2.5]
     min_velocity: [-7.5, -7.5, -2.5]
     deadband_velocity: [0.05, 0.05, 0.05]
     velocity_timeout: 1.0
-    max_accel: [3.5, 3.5, 3.0] #与 MPPI 加速度一致
-    max_decel: [-3.5, -3.5, -3.0] #与 MPPI 制动一致
+    max_accel: [5.0, 5.0, 3.5] #与 MPPI 加速度同步提升
+    max_decel: [-5.0, -5.0, -3.5] #与 MPPI 制动同步提升
     odom_topic: "odometry"
     odom_duration: 0.1
