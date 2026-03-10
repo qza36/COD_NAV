@@ -9,7 +9,8 @@ RoboMaster 2025 COD Team sentinel robot navigation system. ROS 2 Humble on Ubunt
 ## Build & Run
 
 ```bash
-# Build (from workspace root, e.g. ~/cod_ws)
+# Workspace root: ~/qza_ws/cod_nav_rmul2026/
+# Build (from workspace root)
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja
 
 # Build a single package
@@ -27,6 +28,8 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 Prerequisites: Livox SDK2 installed, then `rosdep install --from-paths src --ignore-src -r -y` from workspace root.
 
+There is no test infrastructure — no unit or integration tests exist in these packages.
+
 ## Architecture
 
 ### Packages
@@ -43,14 +46,14 @@ Prerequisites: Livox SDK2 installed, then `rosdep install --from-paths src --ign
 
 ```
 /livox/lidar (PointCloud2)
-  ├─> cpp_lidar_filter ──> /livox/lidar_filtered (for costmap voxel layer)
+  ├─> cpp_lidar_filter ──> /livox/lidar_filtered (for costmap spatio_temporal_voxel_layer)
   ├─> pointcloud_to_laserscan ──> /scan (for slam_toolbox)
   └─> small_point_lio (+/livox/imu) ──> /Odometry, /cloud_registered
 
 slam_toolbox: /scan ──> map
 
-Nav2 stack: global planner (GridBased/Dijkstra) + local planner (MPPI)
-  └─> /cmd_vel ──> fake_vel_transform ──> /aft_cmd_vel ──> cod_serial_ul26 (hardware)
+Nav2 stack: global planner (SmacPlanner2D/Dubin) + local planner (MPPI) + SavitzkyGolaySmoother
+  └─> /cmd_vel ──> velocity_smoother ──> fake_vel_transform ──> /aft_cmd_vel ──> cod_serial_ul26 (hardware)
 ```
 
 ### TF Frame Tree
@@ -64,16 +67,26 @@ Nav2's `robot_base_frame` is set to `base_link_fake` so that gimbal spinning doe
 
 ### Key Configuration Files
 
-- **`nav_bringup/params/nav2_params.yaml`** — All Nav2 parameters (MPPI controller, costmaps, planners, BT navigator)
-- **`nav_bringup/params/mapper_params_async.yaml`** — slam_toolbox async SLAM parameters
+- **`nav_bringup/params/nav2_params.yaml`** — All Nav2 parameters (MPPI controller, costmaps, planners, BT navigator). Chinese comments explain each tuning decision.
+- **`nav_bringup/params/mapper_params_async.yaml`** — slam_toolbox async SLAM (lifelong mapping mode)
 - **`small_point_lio/config/mid360.yaml`** — LiDAR-IMU odometry parameters
-- **`nav_bringup/launch/slam.launch.py`** — Main entry point, launches all nodes
+- **`nav_bringup/launch/slam.launch.py`** — Main entry point, launches all nodes. Note: contains dead references to `fast_lio` package (legacy; actual LIO is `small_point_lio`).
 - **`nav_bringup/launch/navigation_launch.py`** — Nav2 lifecycle node bringup
 - **`nav_bringup/behavior_trees/`** — BT XMLs for navigate-to-pose and navigate-through-poses
 
 ### MPPI Controller Key Parameters
 
-The MPPI controller runs omnidirectional motion (`motion_model: "Omni"`) with high max velocities (vx/vy_max: 7.5 m/s) tuned for the competition sentinel. Critics, costmap resolution (0.05m), and voxel layer decay are actively tuned — check recent git history for parameter evolution.
+The MPPI controller runs omnidirectional motion (`motion_model: "Omni"`) with high max velocities (vx/vy_max: 7.5 m/s) tuned for the competition sentinel. Key tuning areas:
+- **Oscillation suppression**: `temperature: 0.25` (low, forces decisive trajectory selection), `gamma: 0.008` (low regularization)
+- **Goal convergence**: `GoalCritic.cost_weight: 15.0` with `threshold_to_consider: 2.5` for early activation; `PathFollowCritic` and `PathAlignCritic` disable within 1.5m of goal to avoid tangential forces
+- **Costmap**: `cost_scaling_factor: 5.0` (fast decay for clear gradient), `SpatioTemporalVoxelLayer` with 0.5s linear voxel decay
+- Critics, costmap resolution (0.05m), and voxel layer parameters are actively tuned — check recent git history for parameter evolution
+
+A commented-out `OmniPidPursuitController` configuration is preserved in `nav2_params.yaml` as an alternative controller.
+
+### Known Issues in Config
+
+- `bt_navigator.odom_topic` is set to `"odomety"` (typo for `"odometry"`) in `nav2_params.yaml`
 
 ### External Dependencies (not in this repo)
 
@@ -81,10 +94,11 @@ The MPPI controller runs omnidirectional motion (`motion_model: "Omni"`) with hi
 - **livox_ros_driver2** — Livox LiDAR driver
 - **slam_toolbox** — 2D async SLAM
 - **Nav2 stack** — Full navigation framework (controller, planner, smoother, BT navigator, costmap, behaviors)
+- **spatio_temporal_voxel_layer** — 3D voxel costmap layer used for obstacle detection in both local and global costmaps
 
 ## Code Conventions
 
-- C++17 for most packages, C++20 for small_point_lio
+- C++20 for small_point_lio, C++14 for fake_vel_transform, system default for other packages
 - Comments and commit messages are in Chinese
 - small_point_lio uses precompiled headers and aggressive optimization flags (`-march=native`, `-ffast-math`, OpenMP)
 - Launch files are Python-based (ROS 2 style)
